@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="UTF-8">
@@ -21,8 +20,6 @@ color:#2d6a4f;
 text-shadow:2px 2px 6px rgba(0,0,0,0.2);
 }
 
-/* STARTSCREEN */
-
 #startScreen{
 height:70vh;
 display:flex;
@@ -33,7 +30,6 @@ gap:30px;
 }
 
 .modeButton{
-
 width:70%;
 max-width:600px;
 font-size:36px;
@@ -43,18 +39,13 @@ border-radius:25px;
 background:#2d6a4f;
 color:white;
 cursor:pointer;
-
 }
-
-/* ZURÜCK BUTTON */
 
 .backButton{
 margin-top:20px;
 font-size:24px;
 padding:15px 30px;
 }
-
-/* GRID */
 
 .container{
 display:grid;
@@ -64,8 +55,6 @@ width:95%;
 margin:auto;
 margin-top:40px;
 }
-
-/* KARTEN */
 
 .card{
 background:white;
@@ -92,8 +81,6 @@ font-weight:bold;
 margin-top:10px;
 }
 
-/* BUTTONS */
-
 button{
 padding:18px 40px;
 font-size:24px;
@@ -104,8 +91,6 @@ color:white;
 cursor:pointer;
 margin:10px;
 }
-
-/* FORTSCHRITTSBALKEN */
 
 .progressContainer{
 width:80%;
@@ -126,8 +111,6 @@ background:#2d6a4f;
 font-size:28px;
 height:40px;
 }
-
-/* ENDSCREEN */
 
 #endScreen{
 display:none;
@@ -166,7 +149,6 @@ margin-top:30px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -175,7 +157,9 @@ margin-top:30px;
 
 <div id="startScreen">
 
-<button class="modeButton" onclick="startGame('learn')">📚 Lernen</button> <button class="modeButton" onclick="startGame('quiz')">🎯 Quiz</button> <button class="modeButton" onclick="startGame('expert')">🔥 Expertenmodus</button>
+<button class="modeButton" onclick="startGame('learn')">📚 Lernen</button>
+<button class="modeButton" onclick="startGame('quiz')">🎯 Quiz</button>
+<button class="modeButton" onclick="startGame('expert')">🔥 Expertenmodus</button>
 
 </div>
 
@@ -191,7 +175,8 @@ margin-top:30px;
 <div class="progressBar" id="progressBar"></div>
 </div>
 
-<button onclick="playRandomSound()">🔊 Vogelruf</button> <button onclick="repeatSound()">🔁 Wiederholen</button>
+<button onclick="playRandomSound()">🔊 Vogelruf</button>
+<button onclick="repeatSound()">🔁 Wiederholen</button>
 
 <div id="info"></div>
 
@@ -223,9 +208,16 @@ margin-top:30px;
 
 </div>
 
-<!-- AUDIO -->
-
-<audio id="nachtigall" src="nachtigall.mp3"></audio> <audio id="amsel" src="amsel.mp3"></audio> <audio id="rotkehlchen" src="rotkehlchen.mp3"></audio> <audio id="halsbandsittich" src="halsbandsittich.mp3"></audio> <audio id="kanadagans" src="kanadagans.mp3"></audio> <audio id="kohlmeise" src="kohlmeise.mp3"></audio> <audio id="ringeltaube" src="ringeltaube.mp3"></audio> <audio id="star" src="star.mp3"></audio> <audio id="stockente" src="stockente.mp3"></audio> <audio id="turmfalke" src="turmfalke.mp3"></audio>
+<audio id="nachtigall" src="nachtigall.mp3"></audio>
+<audio id="amsel" src="amsel.mp3"></audio>
+<audio id="rotkehlchen" src="rotkehlchen.mp3"></audio>
+<audio id="halsbandsittich" src="halsbandsittich.mp3"></audio>
+<audio id="kanadagans" src="kanadagans.mp3"></audio>
+<audio id="kohlmeise" src="kohlmeise.mp3"></audio>
+<audio id="ringeltaube" src="ringeltaube.mp3"></audio>
+<audio id="star" src="star.mp3"></audio>
+<audio id="stockente" src="stockente.mp3"></audio>
+<audio id="turmfalke" src="turmfalke.mp3"></audio>
 
 <script>
 
@@ -285,12 +277,14 @@ let card=document.createElement("div");
 card.className="card";
 
 let img=bird.img;
+let rotation=0;
 
 if(mode==="expert"){
 img="silhouette.png";
+rotation=Math.floor(Math.random()*360);
 }
 
-card.innerHTML="<img src='"+img+"'><div class='name'>"+bird.name+"</div>";
+card.innerHTML="<img src='"+img+"' style='transform:rotate("+rotation+"deg)'><div class='name'>"+bird.name+"</div>";
 
 card.onclick=()=>birdClicked(bird.name);
 
@@ -354,7 +348,6 @@ document.getElementById("info").innerHTML="❌ Falsch";
 }
 
 document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
-
 document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
 
 if(rounds>=maxRounds){
@@ -370,7 +363,12 @@ function endGame(){
 document.getElementById("game").style.display="none";
 document.getElementById("endScreen").style.display="flex";
 
-document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
+let color="red";
+if(points>=10) color="orange";
+if(points>=13) color="green";
+if(points==15) color="gold";
+
+document.getElementById("finalScore").innerHTML="<span style='color:"+color+"'>Punkte: "+points+" / "+maxRounds+"</span>";
 
 let rating="";
 
@@ -391,7 +389,9 @@ function saveScore(){
 let name=document.getElementById("nameInput").value.trim();
 if(!name) return;
 
-let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
+let key = mode==="expert" ? "birdHighscoresExpert" : "birdHighscoresQuiz";
+
+let highscores=JSON.parse(localStorage.getItem(key)||"[]");
 
 highscores.push({name:name,score:points});
 
@@ -399,7 +399,9 @@ highscores.sort((a,b)=>b.score-a.score);
 
 highscores=highscores.slice(0,10);
 
-localStorage.setItem("birdHighscores",JSON.stringify(highscores));
+localStorage.setItem(key,JSON.stringify(highscores));
+
+document.getElementById("nameInput").value="";
 
 displayHighscores();
 
@@ -407,7 +409,9 @@ displayHighscores();
 
 function displayHighscores(){
 
-let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
+let key = mode==="expert" ? "birdHighscoresExpert" : "birdHighscoresQuiz";
+
+let highscores=JSON.parse(localStorage.getItem(key)||"[]");
 
 let html="";
 
@@ -415,13 +419,25 @@ highscores.forEach((h,i)=>{
 
 let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
 
-html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
+let style="";
+
+if(i==0){
+style="style='font-weight:bold;color:#2d6a4f;font-size:32px'";
+}
+
+html+="<div "+style+">"+medal+" "+h.name+" — "+h.score+" Punkte</div>";
 
 });
 
 document.getElementById("highscores").innerHTML=html;
 
 }
+
+document.getElementById("nameInput").addEventListener("keydown",function(e){
+if(e.key==="Enter"){
+saveScore();
+}
+});
 
 </script>
 
