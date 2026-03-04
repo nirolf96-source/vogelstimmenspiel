@@ -32,24 +32,15 @@ background-position:center;
 background-repeat:no-repeat;
 }
 
-/* Titel */
-
-h1{
-font-size:90px;
-color:white;
-text-shadow:0 5px 20px rgba(0,0,0,0.6);
-margin:0;
-}
-
 /* 3D Buttons */
 
 .startButton{
 
-font-size:50px;
+font-size:55px;
 font-weight:700;
 color:white;
 
-padding:30px 70px;
+padding:35px 80px;
 
 border-radius:20px;
 border:none;
@@ -57,8 +48,8 @@ border:none;
 cursor:pointer;
 
 box-shadow:
-0 8px 0 rgba(0,0,0,0.5),
-0 12px 20px rgba(0,0,0,0.4);
+0 10px 0 rgba(0,0,0,0.5),
+0 14px 25px rgba(0,0,0,0.4);
 
 transition:0.15s;
 
@@ -66,7 +57,7 @@ transition:0.15s;
 
 .startButton:active{
 transform:translateY(6px);
-box-shadow:0 2px 0 rgba(0,0,0,0.5);
+box-shadow:0 3px 0 rgba(0,0,0,0.5);
 }
 
 .learnBtn{background:#2ecc71;}
@@ -77,17 +68,17 @@ box-shadow:0 2px 0 rgba(0,0,0,0.5);
 
 #game{
 display:none;
-padding-top:20px;
+padding-top:30px;
 }
 
-/* große Buttons */
+/* große Steuerbuttons */
 
 .bigButton{
 
-font-size:36px;
+font-size:40px;
 font-weight:700;
 
-padding:25px 50px;
+padding:30px 60px;
 
 border-radius:18px;
 border:none;
@@ -98,15 +89,15 @@ color:white;
 cursor:pointer;
 
 box-shadow:
-0 6px 0 rgba(0,0,0,0.5),
-0 10px 20px rgba(0,0,0,0.3);
+0 8px 0 rgba(0,0,0,0.5),
+0 12px 22px rgba(0,0,0,0.3);
 
 margin:20px;
 
 }
 
 .bigButton:active{
-transform:translateY(4px);
+transform:translateY(5px);
 box-shadow:0 2px 0 rgba(0,0,0,0.5);
 }
 
@@ -116,7 +107,7 @@ box-shadow:0 2px 0 rgba(0,0,0,0.5);
 
 display:grid;
 grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-gap:35px;
+gap:40px;
 width:95%;
 margin:auto;
 margin-top:40px;
@@ -126,11 +117,11 @@ margin-top:40px;
 .card{
 
 background:white;
-padding:20px;
+padding:25px;
 
 border-radius:20px;
 
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
+box-shadow:0 12px 25px rgba(0,0,0,0.25);
 
 cursor:pointer;
 
@@ -143,19 +134,19 @@ object-fit:contain;
 }
 
 .name{
-font-size:30px;
+font-size:32px;
 font-weight:700;
 margin-top:10px;
 }
 
-/* Expertenmodus Buttons */
+/* Expertenbuttons */
 
 .expertButton{
 
-font-size:42px;
+font-size:45px;
 font-weight:700;
 
-padding:45px;
+padding:50px;
 
 border-radius:18px;
 border:none;
@@ -166,8 +157,8 @@ color:white;
 cursor:pointer;
 
 box-shadow:
-0 6px 0 rgba(0,0,0,0.5),
-0 10px 20px rgba(0,0,0,0.3);
+0 8px 0 rgba(0,0,0,0.5),
+0 12px 22px rgba(0,0,0,0.3);
 
 }
 
@@ -179,7 +170,7 @@ transform:translateY(4px);
 
 #points{
 
-font-size:60px;
+font-size:70px;
 font-weight:700;
 
 margin-top:20px;
@@ -191,7 +182,7 @@ margin-top:20px;
 .progressContainer{
 
 width:90%;
-height:70px;
+height:80px;
 
 background:#ddd;
 
@@ -201,7 +192,7 @@ margin:30px auto;
 
 overflow:hidden;
 
-box-shadow:inset 0 4px 10px rgba(0,0,0,0.3);
+box-shadow:inset 0 5px 12px rgba(0,0,0,0.3);
 
 }
 
@@ -217,11 +208,11 @@ background:linear-gradient(90deg,#00c6ff,#0072ff);
 /* Info */
 
 #info{
-font-size:36px;
-height:40px;
+font-size:40px;
+height:60px;
 }
 
-/* Endscreen */
+/* ENDSCREEN */
 
 #endScreen{
 
@@ -235,7 +226,7 @@ left:0;
 width:100%;
 height:100%;
 
-background:#f0f0f0;
+background:linear-gradient(#f5f5f5,#eaeaea);
 
 justify-content:center;
 align-items:center;
@@ -244,46 +235,31 @@ flex-direction:column;
 }
 
 #finalScore{
+font-size:100px;
+font-weight:700;
+margin:20px;
+}
 
-font-size:80px;
-
+#motivation{
+font-size:45px;
+margin-bottom:30px;
+color:#444;
 }
 
 #nameInput{
 
-font-size:30px;
+font-size:32px;
+padding:18px;
+width:320px;
 
-padding:15px;
-
-width:300px;
-
-border-radius:10px;
-
+border-radius:12px;
 border:1px solid #ccc;
 
 }
 
-/* Konfetti */
-
-.confetti{
-
-position:fixed;
-
-width:12px;
-height:12px;
-
-top:-20px;
-
-animation:fall 3s linear forwards;
-
-}
-
-@keyframes fall{
-
-0%{transform:translateY(0) rotate(0);}
-
-100%{transform:translateY(110vh) rotate(720deg);}
-
+.highscore{
+font-size:32px;
+margin-top:30px;
 }
 
 </style>
@@ -293,8 +269,6 @@ animation:fall 3s linear forwards;
 <body>
 
 <div id="startScreen">
-
-<h1>🐦 Vogelstimmen Trainer</h1>
 
 <button class="startButton learnBtn" onclick="startGame('learn')">
 Lernen
@@ -336,9 +310,9 @@ Expertenmodus
 
 <div id="endScreen">
 
-<h2>🎉 Spiel beendet</h2>
-
 <div id="finalScore"></div>
+
+<div id="motivation"></div>
 
 <input id="nameInput" placeholder="Dein Name">
 
@@ -348,7 +322,10 @@ Expertenmodus
 Score speichern
 </button>
 
+<div class="highscore">
+<h3>🏆 Klassen Highscore</h3>
 <div id="highscores"></div>
+</div>
 
 <button class="bigButton" onclick="location.reload()">
 Nochmal spielen
@@ -385,6 +362,7 @@ let points=0;
 let rounds=0;
 let maxRounds=15;
 let scoreSaved=false;
+let soundPlayed=false;
 
 function startGame(selectedMode){
 
@@ -460,6 +438,8 @@ currentBird=birds[randomIndex].name;
 
 document.getElementById(currentBird).play();
 
+soundPlayed=true;
+
 }
 
 function repeatSound(){
@@ -473,13 +453,18 @@ document.getElementById(currentBird).play();
 
 function birdClicked(bird){
 
+if(!soundPlayed){
+document.getElementById("info").innerHTML="🔊 Höre zuerst den Vogelruf!";
+return;
+}
+
 stopAllSounds();
 
 rounds++;
 
 if(bird===currentBird){
 points++;
-document.getElementById("info").innerHTML="✅ Richtig";
+document.getElementById("info").innerHTML="✅ Richtig!";
 }
 else{
 document.getElementById("info").innerHTML="❌ Falsch";
@@ -489,47 +474,34 @@ document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
 
 document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
 
+currentBird="";
+soundPlayed=false;
+
 if(rounds>=maxRounds){
 endGame();
 }
-
-currentBird="";
 
 }
 
 function endGame(){
 
-launchConfetti();
-
 document.getElementById("game").style.display="none";
 
 document.getElementById("endScreen").style.display="flex";
 
-document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
+document.getElementById("finalScore").innerHTML="🏆 "+points+" / "+maxRounds;
+
+let text="";
+
+if(points==15) text="Unglaublich! Du bist ein echter Vogelstimmen-Profi! 🐦";
+else if(points>=12) text="Stark! Du kennst dich richtig gut mit Vogelstimmen aus!";
+else if(points>=9) text="Sehr gut! Du bist auf einem tollen Weg!";
+else if(points>=6) text="Gut gemacht! Übung macht den Meister!";
+else text="Weiter üben – bald erkennst du alle Vogelstimmen!";
+
+document.getElementById("motivation").innerHTML=text;
 
 displayHighscores();
-
-}
-
-function launchConfetti(){
-
-let colors=["#ff0000","#ffcc00","#00ccff","#66ff66","#ff66cc"];
-
-for(let i=0;i<120;i++){
-
-let conf=document.createElement("div");
-
-conf.className="confetti";
-
-conf.style.left=Math.random()*100+"vw";
-
-conf.style.background=colors[Math.floor(Math.random()*colors.length)];
-
-document.body.appendChild(conf);
-
-setTimeout(()=>conf.remove(),4000);
-
-}
 
 }
 
