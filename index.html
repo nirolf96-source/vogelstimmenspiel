@@ -16,13 +16,15 @@ text-align:center;
 background:#f0f0f0;
 }
 
+/* STARTSEITE */
+
 #startScreen{
 height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-gap:60px;
+gap:70px;
 
 background-image:url("Startseite.png");
 background-size:cover;
@@ -30,26 +32,55 @@ background-position:center;
 background-repeat:no-repeat;
 }
 
+/* START BUTTONS */
+
 .startButton{
-font-size:55px;
+
+font-size:60px;
 font-weight:700;
 color:white;
-padding:35px 80px;
-border-radius:20px;
+
+padding:40px 110px;
+
+border-radius:30px;
 border:none;
+
 cursor:pointer;
-box-shadow:0 10px 0 rgba(0,0,0,0.5),0 14px 25px rgba(0,0,0,0.4);
-transition:0.15s;
+
+box-shadow:
+0 12px 0 rgba(0,0,0,0.5),
+0 18px 35px rgba(0,0,0,0.4);
+
+transition:all 0.15s;
+
+}
+
+.startButton:hover{
+transform:scale(1.05);
 }
 
 .startButton:active{
-transform:translateY(6px);
-box-shadow:0 3px 0 rgba(0,0,0,0.5);
+transform:translateY(8px);
+box-shadow:
+0 4px 0 rgba(0,0,0,0.5),
+0 10px 20px rgba(0,0,0,0.3);
 }
 
-.learnBtn{background:#2ecc71;}
-.quizBtn{background:#3498db;}
-.expertBtn{background:#e74c3c;}
+/* Farben */
+
+.learnBtn{
+background:linear-gradient(#2ecc71,#1e8449);
+}
+
+.quizBtn{
+background:linear-gradient(#3498db,#1f618d);
+}
+
+.expertBtn{
+background:linear-gradient(#f39c12,#d35400);
+}
+
+/* GAME */
 
 #game{
 display:none;
@@ -69,6 +100,8 @@ box-shadow:0 8px 0 rgba(0,0,0,0.5),0 12px 22px rgba(0,0,0,0.3);
 margin:15px;
 }
 
+/* GRID */
+
 .container{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -77,6 +110,8 @@ width:92%;
 margin:auto;
 margin-top:30px;
 }
+
+/* Karten */
 
 .card{
 background:white;
@@ -100,18 +135,21 @@ margin-top:10px;
 word-wrap:break-word;
 }
 
+/* Expertenbuttons */
+
 .expertButton{
 font-size:32px;
 font-weight:700;
 padding:35px;
 border-radius:18px;
 border:none;
-background:#e74c3c;
+background:#e67e22;
 color:white;
 cursor:pointer;
 box-shadow:0 8px 0 rgba(0,0,0,0.5),0 12px 22px rgba(0,0,0,0.3);
-white-space:normal;
 }
+
+/* Feedback */
 
 .correct{
 background:#2ecc71 !important;
@@ -123,11 +161,15 @@ background:#e74c3c !important;
 color:white;
 }
 
+/* Punkte */
+
 #points{
 font-size:60px;
 font-weight:700;
 margin-top:10px;
 }
+
+/* Fortschrittsbalken */
 
 .progressContainer{
 width:90%;
@@ -145,10 +187,14 @@ width:0%;
 background:linear-gradient(90deg,#00c6ff,#0072ff);
 }
 
+/* Info */
+
 #info{
-font-size:32px;
-height:50px;
+font-size:38px;
+height:60px;
 }
+
+/* ENDSCREEN */
 
 #endScreen{
 display:none;
@@ -166,7 +212,7 @@ flex-direction:column;
 }
 
 .resultBox{
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.65);
 padding:50px;
 border-radius:25px;
 color:white;
@@ -212,7 +258,11 @@ margin:20px;
 
 <div id="startScreen">
 
-<button class="startButton learnBtn" onclick="startGame('learn')">Lernen</button> <button class="startButton quizBtn" onclick="startGame('quiz')">Quiz</button> <button class="startButton expertBtn" onclick="startGame('expert')">Expertenmodus</button>
+<button class="startButton learnBtn" onclick="startGame('learn')">Lernen</button>
+
+<button class="startButton quizBtn" onclick="startGame('quiz')">Quiz</button>
+
+<button class="startButton expertBtn" onclick="startGame('expert')">Expertenmodus</button>
 
 </div>
 
@@ -262,21 +312,18 @@ margin:20px;
 
 <script>
 
-/* VERSIONSSYSTEM */
+/* VERSION RESET */
 
-let gameVersion = "v2";
+let gameVersion="v2";
 
-let savedVersion = localStorage.getItem("birdGameVersion");
+let savedVersion=localStorage.getItem("birdGameVersion");
 
-if(savedVersion !== gameVersion){
-
+if(savedVersion!==gameVersion){
 localStorage.removeItem("birdHighscores");
-
-localStorage.setItem("birdGameVersion", gameVersion);
-
+localStorage.setItem("birdGameVersion",gameVersion);
 }
 
-/* SPIELCODE */
+/* SPIEL */
 
 function capitalize(text){
 return text.charAt(0).toUpperCase()+text.slice(1);
@@ -411,13 +458,11 @@ if(bird===currentBird){
 
 element.classList.add("correct");
 points++;
-
 document.getElementById("info").innerHTML="✅ Richtig!";
 
 }else{
 
 element.classList.add("wrong");
-
 document.getElementById("info").innerHTML="❌ Falsch!";
 
 }
@@ -436,10 +481,20 @@ element.classList.remove("wrong");
 if(rounds>=maxRounds){
 endGame();
 }else{
+
+document.getElementById("info").innerHTML="⏳ Nächster Vogelruf startet gleich...";
+
+setTimeout(()=>{
+
+document.getElementById("info").innerHTML="🔊 Höre den Vogelruf";
+
 nextRound();
+
+},2000);
+
 }
 
-},900);
+},800);
 
 }
 
