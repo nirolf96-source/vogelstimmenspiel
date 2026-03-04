@@ -14,6 +14,21 @@ font-family:'Poppins',sans-serif;
 background:#f0f0f0;
 margin:0;
 text-align:center;
+transition:0.4s;
+}
+
+/* Hintergrundfarben der Modi */
+
+.learnMode{
+background:#dff5e3;
+}
+
+.quizMode{
+background:#dfe9ff;
+}
+
+.expertMode{
+background:#ffe0de;
 }
 
 /* Überschrift */
@@ -22,10 +37,9 @@ h1{
 font-size:80px;
 margin-top:40px;
 color:#222;
-letter-spacing:2px;
 }
 
-/* Startseite */
+/* Startscreen */
 
 #startScreen{
 height:70vh;
@@ -33,16 +47,16 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-gap:40px;
+gap:50px;
 }
 
-/* große Modusbuttons */
+/* Modus Buttons */
 
 .modeButton{
-width:70%;
-max-width:650px;
-font-size:42px;
-padding:50px;
+width:80%;
+max-width:700px;
+font-size:48px;
+padding:60px;
 border:none;
 border-radius:30px;
 color:white;
@@ -59,13 +73,17 @@ transform:scale(1.05);
 .quizBtn{background:#4285f4;}
 .expertBtn{background:#ea4335;}
 
-/* Zurück */
+/* Zurück Button */
 
 .backButton{
 margin-top:20px;
 font-size:22px;
 padding:12px 28px;
 background:#555;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
 }
 
 /* Container */
@@ -79,7 +97,7 @@ margin:auto;
 margin-top:40px;
 }
 
-/* Karten */
+/* Quiz Karten */
 
 .card{
 background:white;
@@ -96,12 +114,12 @@ transform:scale(1.05);
 
 .card img{
 width:100%;
-height:200px;
+height:240px;
 object-fit:contain;
 }
 
 .name{
-font-size:22px;
+font-size:26px;
 font-weight:600;
 margin-top:10px;
 }
@@ -109,20 +127,21 @@ margin-top:10px;
 /* Expertenmodus Buttons */
 
 .expertButton{
-font-size:34px;
-padding:40px;
+font-size:40px;
+padding:50px;
 background:#ea4335;
 color:white;
 border:none;
 border-radius:20px;
 cursor:pointer;
+width:100%;
 }
 
 /* Standard Buttons */
 
 button{
-padding:16px 35px;
-font-size:22px;
+padding:20px 40px;
+font-size:24px;
 border:none;
 border-radius:14px;
 background:#555;
@@ -182,7 +201,7 @@ margin-bottom:30px;
 
 #nameInput{
 font-size:24px;
-padding:10px;
+padding:12px;
 border-radius:8px;
 border:1px solid #ccc;
 width:260px;
@@ -261,7 +280,7 @@ margin-top:30px;
 
 </div>
 
-<!-- AUDIO -->
+<!-- Audio Dateien -->
 
 <audio id="nachtigall" src="nachtigall.mp3"></audio> <audio id="amsel" src="amsel.mp3"></audio> <audio id="rotkehlchen" src="rotkehlchen.mp3"></audio> <audio id="halsbandsittich" src="halsbandsittich.mp3"></audio> <audio id="kanadagans" src="kanadagans.mp3"></audio> <audio id="kohlmeise" src="kohlmeise.mp3"></audio> <audio id="ringeltaube" src="ringeltaube.mp3"></audio> <audio id="star" src="star.mp3"></audio> <audio id="stockente" src="stockente.mp3"></audio> <audio id="turmfalke" src="turmfalke.mp3"></audio>
 
@@ -290,21 +309,27 @@ function startGame(selectedMode){
 
 mode=selectedMode;
 
+document.body.classList.remove("learnMode","quizMode","expertMode");
+
+if(mode==="learn"){
+document.body.classList.add("learnMode");
+}
+
+if(mode==="quiz"){
+document.body.classList.add("quizMode");
+}
+
+if(mode==="expert"){
+document.body.classList.add("expertMode");
+}
+
 document.getElementById("startScreen").style.display="none";
 document.getElementById("game").style.display="block";
 
 if(mode==="learn"){
 document.getElementById("quizElements").style.display="none";
-}
-
-if(mode==="quiz"){
+}else{
 document.getElementById("quizElements").style.display="block";
-document.getElementById("progressBar").style.background="#4285f4";
-}
-
-if(mode==="expert"){
-document.getElementById("quizElements").style.display="block";
-document.getElementById("progressBar").style.background="#ea4335";
 }
 
 createBirdCards();
@@ -315,6 +340,7 @@ function goBack(){
 stopAllSounds();
 document.getElementById("game").style.display="none";
 document.getElementById("startScreen").style.display="flex";
+document.body.classList.remove("learnMode","quizMode","expertMode");
 }
 
 function createBirdCards(){
@@ -329,20 +355,16 @@ if(mode==="expert"){
 let btn=document.createElement("button");
 btn.className="expertButton";
 btn.innerText=bird.name;
-
 btn.onclick=()=>birdClicked(bird.name);
 
 container.appendChild(btn);
 
-}
-
-else{
+}else{
 
 let card=document.createElement("div");
 card.className="card";
 
 card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+bird.name+"</div>";
-
 card.onclick=()=>birdClicked(bird.name);
 
 container.appendChild(card);
