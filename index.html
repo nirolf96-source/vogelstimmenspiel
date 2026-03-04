@@ -7,7 +7,7 @@
 
 <title>Vogelstimmen Trainer</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -41,10 +41,10 @@ background-position:center;
 width:auto;
 min-width:220px;
 
-font-size:38px;
+font-size:36px;
 font-weight:700;
 
-padding:22px 45px;
+padding:20px 45px;
 
 border:none;
 border-radius:25px;
@@ -71,10 +71,10 @@ transform:translateY(6px);
 /* Steuerbuttons */
 
 .bigButton{
-font-size:26px;
-padding:16px 28px;
+font-size:22px;
+padding:14px 24px;
 border:none;
-border-radius:15px;
+border-radius:14px;
 background:#333;
 color:white;
 cursor:pointer;
@@ -133,7 +133,7 @@ object-fit:contain;
 .name{
 
 font-size:18px;
-font-weight:700;
+font-weight:600;
 
 margin-top:8px;
 
@@ -149,8 +149,8 @@ text-align:center;
 /* Expertenbuttons */
 
 .expertButton{
-font-size:22px;
-padding:20px;
+font-size:20px;
+padding:18px;
 background:#ea4335;
 color:white;
 border:none;
@@ -163,7 +163,7 @@ width:100%;
 
 #points{
 font-size:26px;
-font-weight:700;
+font-weight:600;
 margin-top:10px;
 }
 
@@ -189,12 +189,62 @@ font-size:22px;
 height:30px;
 }
 
+/* ENDSCREEN */
+
+#endScreen{
+
+display:none;
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:#f0f0f0;
+
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+gap:20px;
+
+text-align:center;
+
+}
+
+#finalScore{
+font-size:48px;
+font-weight:700;
+}
+
+#rating{
+font-size:30px;
+font-weight:600;
+color:#444;
+}
+
+#nameInput{
+font-size:22px;
+padding:10px;
+border-radius:10px;
+border:1px solid #ccc;
+width:220px;
+text-align:center;
+}
+
+.highscore{
+font-size:20px;
+margin-top:10px;
+}
+
 /* Tablet */
 
 @media (max-width:1000px){
 
 .modeButton{
-font-size:32px;
+font-size:30px;
 }
 
 }
@@ -205,12 +255,12 @@ font-size:32px;
 
 .modeButton{
 font-size:24px;
-padding:18px 30px;
+padding:16px 30px;
 }
 
 .bigButton{
-font-size:20px;
-padding:12px 20px;
+font-size:18px;
+padding:10px 18px;
 }
 
 }
@@ -259,15 +309,15 @@ padding:12px 20px;
 
 <!-- ENDSCREEN -->
 
-<div id="endScreen" style="display:none;">
+<div id="endScreen">
 
 <h2>🎉 Spiel beendet</h2>
 
 <div id="finalScore"></div>
 
-<input id="nameInput" placeholder="Dein Name">
+<div id="rating"></div>
 
-<br>
+<input id="nameInput" placeholder="Dein Name">
 
 <button class="bigButton" onclick="saveScore()">Score speichern</button>
 
@@ -433,6 +483,26 @@ document.getElementById("endScreen").style.display="flex";
 
 document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
 
+let rating="";
+
+if(points>=13){
+rating="🏆 Vogelstimmen-Profi! Fantastisch!";
+}
+else if(points>=10){
+rating="🐦 Sehr gut! Du kennst dich mit Vogelstimmen aus.";
+}
+else if(points>=7){
+rating="🌿 Gute Kenntnisse! Weiter so.";
+}
+else if(points>=4){
+rating="🌱 Du bist auf einem guten Weg.";
+}
+else{
+rating="🐣 Ein Anfang ist gemacht – weiter üben!";
+}
+
+document.getElementById("rating").innerHTML=rating;
+
 }
 
 function saveScore(){
@@ -449,6 +519,26 @@ highscores.sort((a,b)=>b.score-a.score);
 highscores=highscores.slice(0,10);
 
 localStorage.setItem("birdHighscores",JSON.stringify(highscores));
+
+displayHighscores();
+
+}
+
+function displayHighscores(){
+
+let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
+
+let html="";
+
+highscores.forEach((h,i)=>{
+
+let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
+
+html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
+
+});
+
+document.getElementById("highscores").innerHTML=html;
 
 }
 
