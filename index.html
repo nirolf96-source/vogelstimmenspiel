@@ -5,201 +5,303 @@
 <meta charset="UTF-8">
 <title>Vogelstimmen Trainer</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
 
 body{
-font-family:"Segoe UI",Arial;
-background:#eaeaea;
 margin:0;
+font-family:'Poppins',sans-serif;
 text-align:center;
-}
-
-/* Überschrift */
-
-h1{
-font-size:70px;
-margin-top:30px;
+background:#f0f0f0;
+overflow-x:hidden;
 }
 
 /* Startseite */
 
 #startScreen{
-height:80vh;
+height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-gap:40px;
+gap:50px;
 
 background-image:url("Startseiten.png");
 background-size:cover;
 background-position:center;
+background-repeat:no-repeat;
+}
+
+/* Überschrift */
+
+h1{
+font-size:90px;
+margin-top:20px;
+color:white;
+text-shadow:0 5px 15px rgba(0,0,0,0.4);
 }
 
 /* 3D Buttons */
 
-.modeButton{
+.startButton{
 
-width:70%;
-max-width:600px;
-font-size:40px;
-padding:40px;
-border:none;
-border-radius:20px;
+font-size:48px;
+font-weight:700;
 color:white;
+
+padding:30px 60px;
+
+border-radius:20px;
+border:none;
+
 cursor:pointer;
 
-box-shadow:0 10px 0 rgba(0,0,0,0.25);
+box-shadow:
+0 8px 0 rgba(0,0,0,0.4),
+0 12px 20px rgba(0,0,0,0.4);
 
 transition:0.15s;
 
+width:auto;
 }
 
-.modeButton:active{
-transform:translateY(5px);
-box-shadow:0 5px 0 rgba(0,0,0,0.25);
+.startButton:active{
+transform:translateY(6px);
+box-shadow:
+0 2px 0 rgba(0,0,0,0.4);
 }
+
+/* Farben */
 
 .learnBtn{background:#2ecc71;}
 .quizBtn{background:#3498db;}
 .expertBtn{background:#e74c3c;}
 
-/* Zurück Button */
+/* Game Bereich */
 
-.backButton{
-font-size:30px;
-padding:20px 40px;
-margin-top:20px;
+#game{
+display:none;
+padding-top:20px;
+}
+
+/* große Steuerbuttons */
+
+.bigButton{
+
+font-size:36px;
+font-weight:700;
+
+padding:25px 50px;
+
+border-radius:18px;
+border:none;
+
+background:#444;
+color:white;
+
+cursor:pointer;
+
+box-shadow:
+0 6px 0 rgba(0,0,0,0.4),
+0 8px 18px rgba(0,0,0,0.3);
+
+margin:20px;
+
+}
+
+.bigButton:active{
+transform:translateY(4px);
+box-shadow:0 2px 0 rgba(0,0,0,0.4);
 }
 
 /* Container */
 
 .container{
+
 display:grid;
 grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-gap:35px;
-width:95%;
+
+gap:40px;
+width:90%;
 margin:auto;
 margin-top:40px;
+
 }
 
-/* Karten */
+/* Quizkarten */
 
 .card{
+
 background:white;
-padding:20px;
-border-radius:25px;
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+
 cursor:pointer;
+
 }
 
 .card img{
+
 width:100%;
-height:220px;
+height:240px;
 object-fit:contain;
+
 }
 
 .name{
-font-size:28px;
-font-weight:bold;
-margin-top:10px;
+
+font-size:32px;
+font-weight:700;
+
 }
 
-/* Experten Buttons */
+/* Expertenmodus Buttons */
 
 .expertButton{
-font-size:36px;
-padding:40px;
+
+font-size:44px;
+font-weight:700;
+
+padding:50px;
+
+border-radius:18px;
+border:none;
+
 background:#e74c3c;
 color:white;
-border:none;
-border-radius:20px;
+
 cursor:pointer;
-width:100%;
+
+box-shadow:
+0 6px 0 rgba(0,0,0,0.4),
+0 8px 18px rgba(0,0,0,0.3);
+
 }
 
-/* Steuer Buttons */
-
-button{
-padding:20px 40px;
-font-size:30px;
-border:none;
-border-radius:15px;
-background:#333;
-color:white;
-cursor:pointer;
-margin:10px;
+.expertButton:active{
+transform:translateY(4px);
 }
 
 /* Punkte */
 
 #points{
-font-size:40px;
-font-weight:bold;
+
+font-size:60px;
+font-weight:700;
+
+margin-top:20px;
+
 }
 
 /* Fortschrittsbalken */
 
 .progressContainer{
-width:80%;
-height:50px;
-margin:20px auto;
+
+width:90%;
+height:70px;
+
 background:#ddd;
-border-radius:25px;
+
+border-radius:40px;
+
+margin:30px auto;
+
 overflow:hidden;
+
+box-shadow:inset 0 3px 8px rgba(0,0,0,0.3);
+
 }
 
 .progressBar{
+
 height:100%;
 width:0%;
-background:#2ecc71;
+
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+
 }
 
 /* Info */
 
 #info{
-font-size:32px;
+font-size:36px;
 height:40px;
 }
 
 /* Endscreen */
 
 #endScreen{
+
 display:none;
+
 position:fixed;
+
 top:0;
 left:0;
+
 width:100%;
 height:100%;
-background:#f5f5f5;
+
+background:#f0f0f0;
+
 justify-content:center;
 align-items:center;
 flex-direction:column;
+
 }
 
 #finalScore{
-font-size:60px;
+
+font-size:80px;
+
+}
+
+#rating{
+
+font-size:50px;
+
 }
 
 #nameInput{
-font-size:26px;
-padding:12px;
-width:260px;
+
+font-size:30px;
+
+padding:15px;
+
+width:300px;
+
+border-radius:10px;
+
+border:1px solid #ccc;
+
 }
 
 /* Konfetti */
 
 .confetti{
+
 position:fixed;
+
 width:10px;
 height:10px;
+
 top:-10px;
-animation:confettiFall 3s linear forwards;
+
+animation:fall 3s linear forwards;
+
 }
 
-@keyframes confettiFall{
+@keyframes fall{
+
 0%{transform:translateY(0) rotate(0);}
+
 100%{transform:translateY(110vh) rotate(720deg);}
+
 }
 
 </style>
@@ -208,27 +310,27 @@ animation:confettiFall 3s linear forwards;
 
 <body>
 
-<h1>🐦 Vogelstimmen Trainer</h1>
-
 <div id="startScreen">
 
-<button class="modeButton learnBtn" onclick="startGame('learn')">
-📚 Lernen
+<h1>🐦 Vogelstimmen Trainer</h1>
+
+<button class="startButton learnBtn" onclick="startGame('learn')">
+Lernen
 </button>
 
-<button class="modeButton quizBtn" onclick="startGame('quiz')">
-🎯 Quiz
+<button class="startButton quizBtn" onclick="startGame('quiz')">
+Quiz
 </button>
 
-<button class="modeButton expertBtn" onclick="startGame('expert')">
-🔥 Expertenmodus
+<button class="startButton expertBtn" onclick="startGame('expert')">
+Expertenmodus
 </button>
 
 </div>
 
-<div id="game" style="display:none;">
+<div id="game">
 
-<button class="backButton" onclick="goBack()">⬅ Zurück</button>
+<button class="bigButton" onclick="goBack()">⬅ Zurück</button>
 
 <div id="quizElements">
 
@@ -238,7 +340,9 @@ animation:confettiFall 3s linear forwards;
 <div class="progressBar" id="progressBar"></div>
 </div>
 
-<button onclick="playRandomSound()">🔊 Vogelruf</button> <button onclick="repeatSound()">🔁 Wiederholen</button>
+<button class="bigButton" onclick="playRandomSound()">🔊 Vogelruf</button>
+
+<button class="bigButton" onclick="repeatSound()">🔁 Wiederholen</button>
 
 <div id="info"></div>
 
@@ -258,45 +362,22 @@ animation:confettiFall 3s linear forwards;
 
 <br>
 
-<button id="saveBtn" onclick="saveScore()">Score speichern</button>
+<button id="saveBtn" class="bigButton" onclick="saveScore()">
+Score speichern
+</button>
 
-<div class="highscore">
-<h3>🏆 Klassen Highscore</h3>
 <div id="highscores"></div>
+
+<button class="bigButton" onclick="location.reload()">
+Nochmal spielen
+</button>
+
 </div>
-
-<button onclick="location.reload()">Nochmal spielen</button>
-
-</div>
-
-<!-- Audio -->
-
-<audio id="nachtigall" src="nachtigall.mp3"></audio> <audio id="amsel" src="amsel.mp3"></audio> <audio id="rotkehlchen" src="rotkehlchen.mp3"></audio> <audio id="halsbandsittich" src="halsbandsittich.mp3"></audio> <audio id="kanadagans" src="kanadagans.mp3"></audio> <audio id="kohlmeise" src="kohlmeise.mp3"></audio> <audio id="ringeltaube" src="ringeltaube.mp3"></audio> <audio id="star" src="star.mp3"></audio> <audio id="stockente" src="stockente.mp3"></audio> <audio id="turmfalke" src="turmfalke.mp3"></audio>
 
 <script>
 
 function capitalize(text){
 return text.charAt(0).toUpperCase()+text.slice(1);
-}
-
-function launchConfetti(){
-
-let colors=["#ff0000","#ffcc00","#00ccff","#66ff66","#ff66cc"];
-
-for(let i=0;i<120;i++){
-
-let conf=document.createElement("div");
-conf.className="confetti";
-
-conf.style.left=Math.random()*100+"vw";
-conf.style.background=colors[Math.floor(Math.random()*colors.length)];
-
-document.body.appendChild(conf);
-
-setTimeout(()=>conf.remove(),3000);
-
-}
-
 }
 
 let birds=[
@@ -317,7 +398,6 @@ let currentBird="";
 let points=0;
 let rounds=0;
 let maxRounds=15;
-let scoreSaved=false;
 
 function startGame(selectedMode){
 
@@ -325,12 +405,6 @@ mode=selectedMode;
 
 document.getElementById("startScreen").style.display="none";
 document.getElementById("game").style.display="block";
-
-if(mode==="learn"){
-document.getElementById("quizElements").style.display="none";
-}else{
-document.getElementById("quizElements").style.display="block";
-}
 
 createBirdCards();
 
@@ -346,6 +420,7 @@ document.getElementById("startScreen").style.display="flex";
 function createBirdCards(){
 
 let container=document.getElementById("birdContainer");
+
 container.innerHTML="";
 
 birds.forEach(bird=>{
@@ -355,17 +430,25 @@ let name=capitalize(bird.name);
 if(mode==="expert"){
 
 let btn=document.createElement("button");
+
 btn.className="expertButton";
+
 btn.innerText=name;
+
 btn.onclick=()=>birdClicked(bird.name);
+
 container.appendChild(btn);
 
-}else{
+}
+
+else{
 
 let card=document.createElement("div");
+
 card.className="card";
 
 card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+name+"</div>";
+
 card.onclick=()=>birdClicked(bird.name);
 
 container.appendChild(card);
@@ -379,36 +462,39 @@ container.appendChild(card);
 function playRandomSound(){
 
 let randomIndex=Math.floor(Math.random()*birds.length);
+
 currentBird=birds[randomIndex].name;
 
-document.getElementById(currentBird).play();
-
 }
 
-function repeatSound(){
-
-if(currentBird!=""){
-document.getElementById(currentBird).play();
-}
-
-}
+function repeatSound(){}
 
 function birdClicked(bird){
 
 rounds++;
 
 if(bird===currentBird){
+
 points++;
-document.getElementById("info").innerHTML="✅ Richtig!";
-}else{
+
+document.getElementById("info").innerHTML="✅ Richtig";
+
+}
+
+else{
+
 document.getElementById("info").innerHTML="❌ Falsch";
+
 }
 
 document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
+
 document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
 
 if(rounds>=maxRounds){
+
 endGame();
+
 }
 
 }
@@ -418,58 +504,32 @@ function endGame(){
 launchConfetti();
 
 document.getElementById("game").style.display="none";
+
 document.getElementById("endScreen").style.display="flex";
 
 document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
 
-displayHighscores();
-
 }
 
-function saveScore(){
+function launchConfetti(){
 
-if(scoreSaved) return;
+let colors=["#ff0000","#ffcc00","#00ccff","#66ff66","#ff66cc"];
 
-let name=document.getElementById("nameInput").value.trim();
-if(!name) return;
+for(let i=0;i<120;i++){
 
-scoreSaved=true;
+let conf=document.createElement("div");
 
-document.getElementById("saveBtn").disabled=true;
+conf.className="confetti";
 
-let key = mode==="expert" ? "birdHighscoresExpert" : "birdHighscoresQuiz";
+conf.style.left=Math.random()*100+"vw";
 
-let highscores=JSON.parse(localStorage.getItem(key)||"[]");
+conf.style.background=colors[Math.floor(Math.random()*colors.length)];
 
-highscores.push({name:name,score:points});
+document.body.appendChild(conf);
 
-highscores.sort((a,b)=>b.score-a.score);
-
-highscores=highscores.slice(0,10);
-
-localStorage.setItem(key,JSON.stringify(highscores));
-
-displayHighscores();
+setTimeout(()=>conf.remove(),4000);
 
 }
-
-function displayHighscores(){
-
-let key = mode==="expert" ? "birdHighscoresExpert" : "birdHighscoresQuiz";
-
-let highscores=JSON.parse(localStorage.getItem(key)||"[]");
-
-let html="";
-
-highscores.forEach((h,i)=>{
-
-let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
-
-html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
-
-});
-
-document.getElementById("highscores").innerHTML=html;
 
 }
 
