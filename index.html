@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Vogelstimmen Quiz</title>
+
+<style>
+
+body{
+margin:0;
+font-family:"Segoe UI", Arial;
+background:linear-gradient(to bottom,#dff6e0,#ffffff);
+text-align:center;
+}
+
+h1{
+margin-top:40px;
+font-size:40px;
+color:#2d6a4f;
+}
+
+#level{
+font-size:24px;
+margin-top:10px;
+}
+
+button{
+padding:12px 25px;
+font-size:18px;
+margin:20px;
+cursor:pointer;
+border-radius:10px;
+border:none;
+background:#2d6a4f;
+color:white;
+}
+
+.container{
+margin-top:20px;
+}
+
+.card{
+display:inline-block;
+background:white;
+padding:20px;
+margin:20px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+cursor:pointer;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-10px);
+}
+
+.card img{
+width:200px;
+border-radius:15px;
+}
+
+.name{
+margin-top:10px;
+font-size:18px;
+font-weight:bold;
+}
+
+#info{
+font-size:22px;
+margin-top:20px;
+}
+
+#endScreen{
+display:none;
+font-size:40px;
+margin-top:60px;
+color:#1b5e20;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Vogelstimmen Quiz 🐦</h1>
+
+<div id="level">Level 1</div>
+
+<button onclick="playRandomSound()">Vogelruf abspielen</button>
+
+<div id="info"></div>
+
+<div class="container" id="birdContainer"></div>
+
+<div id="endScreen">
+🎉 Du bist Vogelprofi! 🎉
+</div>
+
+<!-- Audio Dateien -->
+
+<audio id="nachtigall" src="nachtigall.mp3"></audio>
+<audio id="amsel" src="amsel.mp3"></audio>
+<audio id="rotkehlchen" src="rotkehlchen.mp3"></audio>
+<audio id="halsbandsittich" src="halsbandsittich.mp3"></audio>
+<audio id="kanadagans" src="kanadagans.mp3"></audio>
+<audio id="kohlmeise" src="kohlmeise.mp3"></audio>
+<audio id="ringeltaube" src="ringeltaube.mp3"></audio>
+<audio id="star" src="star.mp3"></audio>
+<audio id="stockente" src="stockente.mp3"></audio>
+<audio id="turmfalke" src="turmfalke.mp3"></audio>
+
+<script>
+
+let birds=[
+{name:"nachtigall",img:"nachtigall.jpg"},
+{name:"amsel",img:"amsel.jpg"},
+{name:"rotkehlchen",img:"rotkehlchen.jpg"},
+{name:"halsbandsittich",img:"halsbandsittich.jpg"},
+{name:"kanadagans",img:"kanadagans.jpg"},
+{name:"kohlmeise",img:"kohlmeise.jpg"},
+{name:"ringeltaube",img:"ringeltaube.jpg"},
+{name:"star",img:"star.jpg"},
+{name:"stockente",img:"stockente.jpg"},
+{name:"turmfalke",img:"turmfalke.jpg"}
+];
+
+let currentBird="";
+let correctAnswers=0;
+let level=1;
+let maxLevel=5;
+
+createBirdCards();
+
+function shuffle(array){
+for(let i=array.length-1;i>0;i--){
+let j=Math.floor(Math.random()*(i+1));
+[array[i],array[j]]=[array[j],array[i]];
+}
+}
+
+function createBirdCards(){
+
+let container=document.getElementById("birdContainer");
+container.innerHTML="";
+
+shuffle(birds);
+
+birds.forEach(bird=>{
+
+let card=document.createElement("div");
+card.className="card";
+
+card.innerHTML=
+"<img src='"+bird.img+"'><div class='name'>"+bird.name+"</div>";
+
+card.onclick=function(){
+checkAnswer(bird.name);
+};
+
+container.appendChild(card);
+
+});
+
+}
+
+function stopAllSounds(){
+let sounds=document.querySelectorAll("audio");
+sounds.forEach(sound=>{
+sound.pause();
+sound.currentTime=0;
+});
+}
+
+function playRandomSound(){
+
+stopAllSounds();
+
+let randomIndex=Math.floor(Math.random()*birds.length);
+currentBird=birds[randomIndex].name;
+
+document.getElementById(currentBird).play();
+
+createBirdCards();
+
+}
+
+function checkAnswer(bird){
+
+if(bird===currentBird){
+
+correctAnswers++;
+document.getElementById("info").innerHTML="✅ Richtig!";
+
+}else{
+
+document.getElementById("info").innerHTML="❌ Falsch!";
+
+}
+
+if(correctAnswers>=level){
+
+level++;
+correctAnswers=0;
+
+if(level>maxLevel){
+
+document.getElementById("birdContainer").style.display="none";
+document.querySelector("button").style.display="none";
+document.getElementById("info").style.display="none";
+document.getElementById("level").style.display="none";
+
+document.getElementById("endScreen").style.display="block";
+
+return;
+
+}
+
+document.getElementById("level").innerHTML="Level "+level;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
