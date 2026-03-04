@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Vogelstimmen Trainer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f0f0f0;
+margin:0;
+text-align:center;
+}
+
+/* Überschrift /
+
+h1{
+font-size:80px;
+margin-top:40px;
+color:#222;
+letter-spacing:2px;
+}
+
+/ Startseite /
+
+#startScreen{
+height:70vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:40px;
+}
+
+/ große Modusbuttons /
+
+.modeButton{
+width:70%;
+max-width:650px;
+font-size:42px;
+padding:50px;
+border:none;
+border-radius:30px;
+color:white;
+cursor:pointer;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+transition:0.2s;
+}
+
+.modeButton:hover{
+transform:scale(1.05);
+}
+
+.learnBtn{background:#34a853;}
+.quizBtn{background:#4285f4;}
+.expertBtn{background:#ea4335;}
+
+/ Zurück /
+
+.backButton{
+margin-top:20px;
+font-size:22px;
+padding:12px 28px;
+background:#555;
+}
+
+/ Container /
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+gap:30px;
+width:90%;
+margin:auto;
+margin-top:40px;
+}
+
+/ Karten /
+
+.card{
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
+cursor:pointer;
+transition:0.2s;
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+.card img{
+width:100%;
+height:200px;
+object-fit:contain;
+}
+
+.name{
+font-size:22px;
+font-weight:600;
+margin-top:10px;
+}
+
+/ Expertenmodus Buttons /
+
+.expertButton{
+font-size:34px;
+padding:40px;
+background:#ea4335;
+color:white;
+border:none;
+border-radius:20px;
+cursor:pointer;
+}
+
+/ Standard Buttons /
+
+button{
+padding:16px 35px;
+font-size:22px;
+border:none;
+border-radius:14px;
+background:#555;
+color:white;
+cursor:pointer;
+margin:10px;
+}
+
+/ Fortschrittsbalken /
+
+.progressContainer{
+width:80%;
+height:35px;
+margin:20px auto;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+}
+
+.progressBar{
+height:100%;
+width:0%;
+background:#4285f4;
+}
+
+/ Info /
+
+#info{
+font-size:28px;
+height:40px;
+}
+
+/ Endscreen */
+
+#endScreen{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#f0f0f0;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+#finalScore{
+font-size:60px;
+margin:20px;
+}
+
+#rating{
+font-size:40px;
+margin-bottom:30px;
+}
+
+#nameInput{
+font-size:24px;
+padding:10px;
+border-radius:8px;
+border:1px solid #ccc;
+width:260px;
+}
+
+.highscore{
+font-size:26px;
+margin-top:30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>🐦 Vogelstimmen Trainer</h1>
+
+<div id="startScreen">
+
+<button class="modeButton learnBtn" onclick="startGame('learn')">
+📚 Lernen
+</button>
+
+<button class="modeButton quizBtn" onclick="startGame('quiz')">
+🎯 Quiz
+</button>
+
+<button class="modeButton expertBtn" onclick="startGame('expert')">
+🔥 Expertenmodus
+</button>
+
+</div>
+
+<div id="game" style="display:none;">
+
+<button class="backButton" onclick="goBack()">⬅ Zurück</button>
+
+<div id="quizElements">
+
+<div id="points">Punkte: 0 / 15</div>
+
+<div class="progressContainer">
+<div class="progressBar" id="progressBar"></div>
+</div>
+
+<button onclick="playRandomSound()">🔊 Vogelruf</button>
+<button onclick="repeatSound()">🔁 Wiederholen</button>
+
+<div id="info"></div>
+
+</div>
+
+<div class="container" id="birdContainer"></div>
+
+</div>
+
+<div id="endScreen">
+
+<h2>🎉 Spiel beendet</h2>
+
+<div id="finalScore"></div>
+<div id="rating"></div>
+
+<input id="nameInput" placeholder="Dein Name">
+
+<br>
+
+<button onclick="saveScore()">Score speichern</button>
+
+<div class="highscore">
+<h3>🏆 Klassen Highscore</h3>
+<div id="highscores"></div>
+</div>
+
+<button onclick="location.reload()">Nochmal spielen</button>
+
+</div>
+
+<!-- AUDIO -->
+
+<audio id="nachtigall" src="nachtigall.mp3"></audio>
+<audio id="amsel" src="amsel.mp3"></audio>
+<audio id="rotkehlchen" src="rotkehlchen.mp3"></audio>
+<audio id="halsbandsittich" src="halsbandsittich.mp3"></audio>
+<audio id="kanadagans" src="kanadagans.mp3"></audio>
+<audio id="kohlmeise" src="kohlmeise.mp3"></audio>
+<audio id="ringeltaube" src="ringeltaube.mp3"></audio>
+<audio id="star" src="star.mp3"></audio>
+<audio id="stockente" src="stockente.mp3"></audio>
+<audio id="turmfalke" src="turmfalke.mp3"></audio>
+
+<script>
+
+let birds=[
+{name:"nachtigall",img:"nachtigall.jpg"},
+{name:"amsel",img:"amsel.jpg"},
+{name:"rotkehlchen",img:"rotkehlchen.jpg"},
+{name:"halsbandsittich",img:"halsbandsittich.jpg"},
+{name:"kanadagans",img:"kanadagans.jpg"},
+{name:"kohlmeise",img:"kohlmeise.jpg"},
+{name:"ringeltaube",img:"ringeltaube.jpg"},
+{name:"star",img:"star.jpg"},
+{name:"stockente",img:"stockente.jpg"},
+{name:"turmfalke",img:"turmfalke.jpg"}
+];
+
+let mode="quiz";
+let currentBird="";
+let points=0;
+let rounds=0;
+let maxRounds=15;
+
+function startGame(selectedMode){
+
+mode=selectedMode;
+
+document.getElementById("startScreen").style.display="none";
+document.getElementById("game").style.display="block";
+
+if(mode==="learn"){
+document.getElementById("quizElements").style.display="none";
+}
+
+if(mode==="quiz"){
+document.getElementById("quizElements").style.display="block";
+document.getElementById("progressBar").style.background="#4285f4";
+}
+
+if(mode==="expert"){
+document.getElementById("quizElements").style.display="block";
+document.getElementById("progressBar").style.background="#ea4335";
+}
+
+createBirdCards();
+
+}
+
+function goBack(){
+stopAllSounds();
+document.getElementById("game").style.display="none";
+document.getElementById("startScreen").style.display="flex";
+}
+
+function createBirdCards(){
+
+let container=document.getElementById("birdContainer");
+container.innerHTML="";
+
+birds.forEach(bird=>{
+
+if(mode==="expert"){
+
+let btn=document.createElement("button");
+btn.className="expertButton";
+btn.innerText=bird.name;
+
+btn.onclick=()=>birdClicked(bird.name);
+
+container.appendChild(btn);
+
+}
+
+else{
+
+let card=document.createElement("div");
+card.className="card";
+
+card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+bird.name+"</div>";
+
+card.onclick=()=>birdClicked(bird.name);
+
+container.appendChild(card);
+
+}
+
+});
+
+}
+
+function stopAllSounds(){
+document.querySelectorAll("audio").forEach(a=>{
+a.pause();
+a.currentTime=0;
+});
+}
+
+function playRandomSound(){
+
+stopAllSounds();
+
+let randomIndex=Math.floor(Math.random()birds.length);
+currentBird=birds[randomIndex].name;
+
+document.getElementById(currentBird).play();
+
+}
+
+function repeatSound(){
+
+if(currentBird!=""){
+stopAllSounds();
+document.getElementById(currentBird).play();
+}
+
+}
+
+function birdClicked(bird){
+
+stopAllSounds();
+
+if(mode==="learn"){
+document.getElementById(bird).play();
+return;
+}
+
+if(currentBird===""){
+document.getElementById("info").innerHTML="🔊 Erst Vogelruf starten!";
+return;
+}
+
+rounds++;
+
+if(bird===currentBird){
+points++;
+document.getElementById("info").innerHTML="✅ Richtig!";
+}else{
+document.getElementById("info").innerHTML="❌ Falsch";
+}
+
+document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
+document.getElementById("progressBar").style.width=(rounds/maxRounds100)+"%";
+
+if(rounds>=maxRounds){
+endGame();
+}
+
+currentBird="";
+
+}
+
+function endGame(){
+
+document.getElementById("game").style.display="none";
+document.getElementById("endScreen").style.display="flex";
+
+document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
+
+displayHighscores();
+
+}
+
+function saveScore(){
+
+let name=document.getElementById("nameInput").value.trim();
+if(!name) return;
+
+let key = mode==="expert" ? "birdHighscoresExpert" : "birdHighscoresQuiz";
+
+let highscores=JSON.parse(localStorage.getItem(key)||"[]");
+
+highscores.push({name:name,score:points});
+
+highscores.sort((a,b)=>b.score-a.score);
+
+highscores=highscores.slice(0,10);
+
+localStorage.setItem(key,JSON.stringify(highscores));
+
+displayHighscores();
+
+}
+
+function displayHighscores(){
+
+let key = mode==="expert" ? "birdHighscoresExpert" : "birdHighscoresQuiz";
+
+let highscores=JSON.parse(localStorage.getItem(key)||"[]");
+
+let html="";
+
+highscores.forEach((h,i)=>{
+
+let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
+
+html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
+
+});
+
+document.getElementById("highscores").innerHTML=html;
+
+}
+
+document.getElementById("nameInput").addEventListener("keydown",function(e){
+if(e.key==="Enter"){
+saveScore();
+}
+});
+
+</script>
+
+</body>
+</html>
