@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -81,6 +82,16 @@ font-weight:bold;
 margin-top:10px;
 }
 
+.expertButton{
+font-size:32px;
+padding:40px;
+background:#2d6a4f;
+color:white;
+border:none;
+border-radius:20px;
+cursor:pointer;
+}
+
 button{
 padding:18px 40px;
 font-size:24px;
@@ -149,6 +160,7 @@ margin-top:30px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -157,9 +169,7 @@ margin-top:30px;
 
 <div id="startScreen">
 
-<button class="modeButton" onclick="startGame('learn')">📚 Lernen</button>
-<button class="modeButton" onclick="startGame('quiz')">🎯 Quiz</button>
-<button class="modeButton" onclick="startGame('expert')">🔥 Expertenmodus</button>
+<button class="modeButton" onclick="startGame('learn')">📚 Lernen</button> <button class="modeButton" onclick="startGame('quiz')">🎯 Quiz</button> <button class="modeButton" onclick="startGame('expert')">🔥 Expertenmodus</button>
 
 </div>
 
@@ -175,8 +185,7 @@ margin-top:30px;
 <div class="progressBar" id="progressBar"></div>
 </div>
 
-<button onclick="playRandomSound()">🔊 Vogelruf</button>
-<button onclick="repeatSound()">🔁 Wiederholen</button>
+<button onclick="playRandomSound()">🔊 Vogelruf</button> <button onclick="repeatSound()">🔁 Wiederholen</button>
 
 <div id="info"></div>
 
@@ -208,16 +217,7 @@ margin-top:30px;
 
 </div>
 
-<audio id="nachtigall" src="nachtigall.mp3"></audio>
-<audio id="amsel" src="amsel.mp3"></audio>
-<audio id="rotkehlchen" src="rotkehlchen.mp3"></audio>
-<audio id="halsbandsittich" src="halsbandsittich.mp3"></audio>
-<audio id="kanadagans" src="kanadagans.mp3"></audio>
-<audio id="kohlmeise" src="kohlmeise.mp3"></audio>
-<audio id="ringeltaube" src="ringeltaube.mp3"></audio>
-<audio id="star" src="star.mp3"></audio>
-<audio id="stockente" src="stockente.mp3"></audio>
-<audio id="turmfalke" src="turmfalke.mp3"></audio>
+<audio id="nachtigall" src="nachtigall.mp3"></audio> <audio id="amsel" src="amsel.mp3"></audio> <audio id="rotkehlchen" src="rotkehlchen.mp3"></audio> <audio id="halsbandsittich" src="halsbandsittich.mp3"></audio> <audio id="kanadagans" src="kanadagans.mp3"></audio> <audio id="kohlmeise" src="kohlmeise.mp3"></audio> <audio id="ringeltaube" src="ringeltaube.mp3"></audio> <audio id="star" src="star.mp3"></audio> <audio id="stockente" src="stockente.mp3"></audio> <audio id="turmfalke" src="turmfalke.mp3"></audio>
 
 <script>
 
@@ -258,12 +258,9 @@ createBirdCards();
 }
 
 function goBack(){
-
 stopAllSounds();
-
 document.getElementById("game").style.display="none";
 document.getElementById("startScreen").style.display="flex";
-
 }
 
 function createBirdCards(){
@@ -273,55 +270,50 @@ container.innerHTML="";
 
 birds.forEach(bird=>{
 
+if(mode==="expert"){
+
+let btn=document.createElement("button");
+btn.className="expertButton";
+btn.innerHTML=bird.name;
+btn.onclick=()=>birdClicked(bird.name);
+container.appendChild(btn);
+
+}else{
+
 let card=document.createElement("div");
 card.className="card";
 
-let img=bird.img;
-let rotation=0;
-
-if(mode==="expert"){
-img="silhouette.png";
-rotation=Math.floor(Math.random()*360);
-}
-
-card.innerHTML="<img src='"+img+"' style='transform:rotate("+rotation+"deg)'><div class='name'>"+bird.name+"</div>";
+card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+bird.name+"</div>";
 
 card.onclick=()=>birdClicked(bird.name);
 
 container.appendChild(card);
+
+}
 
 });
 
 }
 
 function stopAllSounds(){
-
 document.querySelectorAll("audio").forEach(a=>{
 a.pause();
 a.currentTime=0;
 });
-
 }
 
 function playRandomSound(){
-
 stopAllSounds();
-
 let randomIndex=Math.floor(Math.random()*birds.length);
-
 currentBird=birds[randomIndex].name;
-
 document.getElementById(currentBird).play();
-
 }
 
 function repeatSound(){
-
 if(currentBird!=""){
 stopAllSounds();
 document.getElementById(currentBird).play();
 }
-
 }
 
 function birdClicked(bird){
@@ -363,22 +355,7 @@ function endGame(){
 document.getElementById("game").style.display="none";
 document.getElementById("endScreen").style.display="flex";
 
-let color="red";
-if(points>=10) color="orange";
-if(points>=13) color="green";
-if(points==15) color="gold";
-
-document.getElementById("finalScore").innerHTML="<span style='color:"+color+"'>Punkte: "+points+" / "+maxRounds+"</span>";
-
-let rating="";
-
-if(points==15) rating="🏆 Vogelstimmen-Profi";
-else if(points>=13) rating="🐦 Fast ein Profi";
-else if(points>=10) rating="🌿 Gute Kenntnisse";
-else if(points>=7) rating="🌱 Auf gutem Weg";
-else rating="🐣 Anfänger";
-
-document.getElementById("rating").innerHTML=rating;
+document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
 
 displayHighscores();
 
@@ -401,8 +378,6 @@ highscores=highscores.slice(0,10);
 
 localStorage.setItem(key,JSON.stringify(highscores));
 
-document.getElementById("nameInput").value="";
-
 displayHighscores();
 
 }
@@ -419,25 +394,13 @@ highscores.forEach((h,i)=>{
 
 let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
 
-let style="";
-
-if(i==0){
-style="style='font-weight:bold;color:#2d6a4f;font-size:32px'";
-}
-
-html+="<div "+style+">"+medal+" "+h.name+" — "+h.score+" Punkte</div>";
+html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
 
 });
 
 document.getElementById("highscores").innerHTML=html;
 
 }
-
-document.getElementById("nameInput").addEventListener("keydown",function(e){
-if(e.key==="Enter"){
-saveScore();
-}
-});
 
 </script>
 
