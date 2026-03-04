@@ -32,7 +32,7 @@ background-position:center;
 background-repeat:no-repeat;
 }
 
-/* 3D Buttons */
+/* Start Buttons */
 
 .startButton{
 font-size:55px;
@@ -62,17 +62,19 @@ display:none;
 padding-top:20px;
 }
 
+/* Steuerbuttons */
+
 .bigButton{
-font-size:36px;
+font-size:34px;
 font-weight:700;
-padding:25px 50px;
+padding:22px 45px;
 border-radius:18px;
 border:none;
 background:#444;
 color:white;
 cursor:pointer;
 box-shadow:0 8px 0 rgba(0,0,0,0.5),0 12px 22px rgba(0,0,0,0.3);
-margin:20px;
+margin:15px;
 }
 
 /* GRID */
@@ -125,7 +127,7 @@ box-shadow:0 8px 0 rgba(0,0,0,0.5),0 12px 22px rgba(0,0,0,0.3);
 white-space:normal;
 }
 
-/* Blinkfarben */
+/* Feedbackfarben */
 
 .correct{
 background:#2ecc71 !important;
@@ -250,6 +252,8 @@ margin:20px;
 <div class="progressBar" id="progressBar"></div>
 </div>
 
+<button class="bigButton" onclick="repeatSound()">🔁 Vogelruf wiederholen</button>
+
 <div id="info">🔊 Höre den Vogelruf</div>
 
 </div>
@@ -333,8 +337,6 @@ document.getElementById("startScreen").style.display="flex";
 
 }
 
-/* Karten erzeugen */
-
 function createBirdCards(){
 
 let container=document.getElementById("birdContainer");
@@ -349,7 +351,6 @@ if(mode==="expert"){
 let btn=document.createElement("button");
 btn.className="expertButton";
 btn.innerText=name;
-
 btn.onclick=(e)=>birdClicked(bird,e.target);
 
 container.appendChild(btn);
@@ -371,16 +372,12 @@ container.appendChild(card);
 
 }
 
-/* Sound stoppen */
-
 function stopAllSounds(){
 document.querySelectorAll("audio").forEach(a=>{
 a.pause();
 a.currentTime=0;
 });
 }
-
-/* neue Runde */
 
 function nextRound(){
 
@@ -400,16 +397,21 @@ document.getElementById(currentBird).play();
 
 }
 
-/* Klick */
+function repeatSound(){
+
+if(currentBird!==""){
+stopAllSounds();
+document.getElementById(currentBird).play();
+}
+
+}
 
 function birdClicked(bird,element){
 
 if(mode==="learn"){
-
 stopAllSounds();
 document.getElementById(bird).play();
 return;
-
 }
 
 stopAllSounds();
