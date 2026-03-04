@@ -35,24 +35,15 @@ background-repeat:no-repeat;
 /* 3D Buttons */
 
 .startButton{
-
 font-size:55px;
 font-weight:700;
 color:white;
-
 padding:35px 80px;
-
 border-radius:20px;
 border:none;
-
 cursor:pointer;
-
-box-shadow:
-0 10px 0 rgba(0,0,0,0.5),
-0 14px 25px rgba(0,0,0,0.4);
-
+box-shadow:0 10px 0 rgba(0,0,0,0.5),0 14px 25px rgba(0,0,0,0.4);
 transition:0.15s;
-
 }
 
 .startButton:active{
@@ -74,62 +65,37 @@ padding-top:20px;
 /* große Steuerbuttons */
 
 .bigButton{
-
 font-size:36px;
 font-weight:700;
-
 padding:25px 50px;
-
 border-radius:18px;
 border:none;
-
 background:#444;
 color:white;
-
 cursor:pointer;
-
-box-shadow:
-0 8px 0 rgba(0,0,0,0.5),
-0 12px 22px rgba(0,0,0,0.3);
-
+box-shadow:0 8px 0 rgba(0,0,0,0.5),0 12px 22px rgba(0,0,0,0.3);
 margin:20px;
-
 }
 
-/* GRID */
+/* GRID - immer 2 Spalten */
 
 .container{
-
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:1fr 1fr;
 gap:25px;
 width:92%;
 margin:auto;
 margin-top:30px;
-
-}
-
-/* größere Bildschirme */
-
-@media (min-width:900px){
-.container{
-grid-template-columns:repeat(4,1fr);
-}
 }
 
 /* Karten */
 
 .card{
-
 background:white;
 padding:20px;
-
 border-radius:20px;
-
 box-shadow:0 10px 25px rgba(0,0,0,0.25);
-
 cursor:pointer;
-
 }
 
 .card img{
@@ -137,8 +103,6 @@ width:100%;
 height:200px;
 object-fit:contain;
 }
-
-/* Name */
 
 .name{
 font-size:26px;
@@ -150,65 +114,42 @@ word-wrap:break-word;
 /* Expertenbuttons */
 
 .expertButton{
-
 font-size:32px;
 font-weight:700;
-
 padding:35px;
-
 border-radius:18px;
 border:none;
-
 background:#e74c3c;
 color:white;
-
 cursor:pointer;
-
-box-shadow:
-0 8px 0 rgba(0,0,0,0.5),
-0 12px 22px rgba(0,0,0,0.3);
-
+box-shadow:0 8px 0 rgba(0,0,0,0.5),0 12px 22px rgba(0,0,0,0.3);
 white-space:normal;
-
 }
 
 /* Punkte */
 
 #points{
-
 font-size:60px;
 font-weight:700;
-
 margin-top:10px;
-
 }
 
 /* Fortschrittsbalken */
 
 .progressContainer{
-
 width:90%;
 height:70px;
-
 background:#ddd;
-
 border-radius:40px;
-
 margin:20px auto;
-
 overflow:hidden;
-
 box-shadow:inset 0 5px 12px rgba(0,0,0,0.3);
-
 }
 
 .progressBar{
-
 height:100%;
 width:0%;
-
 background:linear-gradient(90deg,#00c6ff,#0072ff);
-
 }
 
 /* Info */
@@ -221,42 +162,27 @@ height:50px;
 /* ENDSCREEN */
 
 #endScreen{
-
 display:none;
-
 position:fixed;
-
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
 background-image:url("Startseite.png");
 background-size:cover;
 background-position:center;
-
 justify-content:center;
 align-items:center;
 flex-direction:column;
-
 }
 
-/* Ergebnis Box */
-
 .resultBox{
-
 background:rgba(0,0,0,0.6);
-
 padding:50px;
-
 border-radius:25px;
-
 color:white;
-
 max-width:700px;
 width:90%;
-
 }
 
 #finalScore{
@@ -272,34 +198,23 @@ margin-top:10px;
 /* Highscore */
 
 .highscore{
-
 background:white;
 padding:40px;
-
 border-radius:20px;
-
 box-shadow:0 10px 25px rgba(0,0,0,0.4);
-
 font-size:34px;
-
 width:600px;
 max-width:90%;
-
 margin-top:30px;
-
 }
 
 #nameInput{
-
 font-size:30px;
 padding:15px;
 width:300px;
-
 border-radius:10px;
 border:1px solid #ccc;
-
 margin:20px;
-
 }
 
 </style>
@@ -310,17 +225,7 @@ margin:20px;
 
 <div id="startScreen">
 
-<button class="startButton learnBtn" onclick="startGame('learn')">
-Lernen
-</button>
-
-<button class="startButton quizBtn" onclick="startGame('quiz')">
-Quiz
-</button>
-
-<button class="startButton expertBtn" onclick="startGame('expert')">
-Expertenmodus
-</button>
+<button class="startButton learnBtn" onclick="startGame('learn')">Lernen</button> <button class="startButton quizBtn" onclick="startGame('quiz')">Quiz</button> <button class="startButton expertBtn" onclick="startGame('expert')">Expertenmodus</button>
 
 </div>
 
@@ -336,9 +241,7 @@ Expertenmodus
 <div class="progressBar" id="progressBar"></div>
 </div>
 
-<button class="bigButton" onclick="playRandomSound()">🔊 Vogelruf</button>
-
-<button class="bigButton" onclick="repeatSound()">🔁 Wiederholen</button>
+<button class="bigButton" onclick="playRandomSound()">🔊 Vogelruf</button> <button class="bigButton" onclick="repeatSound()">🔁 Wiederholen</button>
 
 <div id="info"></div>
 
@@ -351,27 +254,20 @@ Expertenmodus
 <div id="endScreen">
 
 <div class="resultBox">
-
 <div id="finalScore"></div>
-
 <div id="motivation"></div>
-
 </div>
 
 <input id="nameInput" placeholder="Dein Name">
 
-<button id="saveBtn" class="bigButton" onclick="saveScore()">
-Score speichern
-</button>
+<button id="saveBtn" class="bigButton" onclick="saveScore()">Score speichern</button>
 
 <div class="highscore">
 <h2>🏆 Klassen Highscore</h2>
 <div id="highscores"></div>
 </div>
 
-<button class="bigButton" onclick="location.reload()">
-Nochmal spielen
-</button>
+<button class="bigButton" onclick="location.reload()">Nochmal spielen</button>
 
 </div>
 
@@ -420,6 +316,8 @@ createBirdCards();
 
 function goBack(){
 
+stopAllSounds();
+
 document.getElementById("game").style.display="none";
 document.getElementById("startScreen").style.display="flex";
 
@@ -439,9 +337,7 @@ if(mode==="expert"){
 let btn=document.createElement("button");
 btn.className="expertButton";
 btn.innerText=name;
-
 btn.onclick=()=>birdClicked(bird);
-
 container.appendChild(btn);
 
 }else{
@@ -450,7 +346,6 @@ let card=document.createElement("div");
 card.className="card";
 
 card.innerHTML="<img src='"+bird+".jpg'><div class='name'>"+name+"</div>";
-
 card.onclick=()=>birdClicked(bird);
 
 container.appendChild(card);
@@ -462,12 +357,10 @@ container.appendChild(card);
 }
 
 function stopAllSounds(){
-
 document.querySelectorAll("audio").forEach(a=>{
 a.pause();
 a.currentTime=0;
 });
-
 }
 
 function playRandomSound(){
@@ -483,7 +376,6 @@ let available=birds.filter(b=>!usedBirds.includes(b));
 let random=available[Math.floor(Math.random()*available.length)];
 
 currentBird=random;
-
 usedBirds.push(random);
 
 document.getElementById(random).play();
@@ -504,11 +396,9 @@ document.getElementById(currentBird).play();
 function birdClicked(bird){
 
 if(mode==="learn"){
-
 stopAllSounds();
 document.getElementById(bird).play();
 return;
-
 }
 
 if(!soundPlayed){
@@ -523,8 +413,7 @@ rounds++;
 if(bird===currentBird){
 points++;
 document.getElementById("info").innerHTML="✅ Richtig!";
-}
-else{
+}else{
 document.getElementById("info").innerHTML="❌ Falsch!";
 }
 
@@ -566,7 +455,6 @@ function saveScore(){
 if(scoreSaved) return;
 
 let name=document.getElementById("nameInput").value.trim();
-
 if(!name) return;
 
 let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
