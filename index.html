@@ -14,10 +14,9 @@ margin:0;
 font-family:'Poppins',sans-serif;
 text-align:center;
 background:#f0f0f0;
-overflow-x:hidden;
 }
 
-/* Startseite */
+/* STARTSEITE */
 
 #startScreen{
 height:100vh;
@@ -25,32 +24,32 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-gap:50px;
+gap:60px;
 
-background-image:url("Startseiten.png");
+background-image:url("Startseite.png");
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
 }
 
-/* Überschrift */
+/* Titel */
 
 h1{
 font-size:90px;
-margin-top:20px;
 color:white;
-text-shadow:0 5px 15px rgba(0,0,0,0.4);
+text-shadow:0 5px 20px rgba(0,0,0,0.6);
+margin:0;
 }
 
 /* 3D Buttons */
 
 .startButton{
 
-font-size:48px;
+font-size:50px;
 font-weight:700;
 color:white;
 
-padding:30px 60px;
+padding:30px 70px;
 
 border-radius:20px;
 border:none;
@@ -58,34 +57,30 @@ border:none;
 cursor:pointer;
 
 box-shadow:
-0 8px 0 rgba(0,0,0,0.4),
+0 8px 0 rgba(0,0,0,0.5),
 0 12px 20px rgba(0,0,0,0.4);
 
 transition:0.15s;
 
-width:auto;
 }
 
 .startButton:active{
 transform:translateY(6px);
-box-shadow:
-0 2px 0 rgba(0,0,0,0.4);
+box-shadow:0 2px 0 rgba(0,0,0,0.5);
 }
-
-/* Farben */
 
 .learnBtn{background:#2ecc71;}
 .quizBtn{background:#3498db;}
 .expertBtn{background:#e74c3c;}
 
-/* Game Bereich */
+/* GAME */
 
 #game{
 display:none;
 padding-top:20px;
 }
 
-/* große Steuerbuttons */
+/* große Buttons */
 
 .bigButton{
 
@@ -103,8 +98,8 @@ color:white;
 cursor:pointer;
 
 box-shadow:
-0 6px 0 rgba(0,0,0,0.4),
-0 8px 18px rgba(0,0,0,0.3);
+0 6px 0 rgba(0,0,0,0.5),
+0 10px 20px rgba(0,0,0,0.3);
 
 margin:20px;
 
@@ -112,62 +107,55 @@ margin:20px;
 
 .bigButton:active{
 transform:translateY(4px);
-box-shadow:0 2px 0 rgba(0,0,0,0.4);
+box-shadow:0 2px 0 rgba(0,0,0,0.5);
 }
 
-/* Container */
+/* Karten */
 
 .container{
 
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-
-gap:40px;
-width:90%;
+grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+gap:35px;
+width:95%;
 margin:auto;
 margin-top:40px;
 
 }
 
-/* Quizkarten */
-
 .card{
 
 background:white;
-
-padding:25px;
+padding:20px;
 
 border-radius:20px;
 
-box-shadow:0 10px 20px rgba(0,0,0,0.2);
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
 
 cursor:pointer;
 
 }
 
 .card img{
-
 width:100%;
-height:240px;
+height:220px;
 object-fit:contain;
-
 }
 
 .name{
-
-font-size:32px;
+font-size:30px;
 font-weight:700;
-
+margin-top:10px;
 }
 
 /* Expertenmodus Buttons */
 
 .expertButton{
 
-font-size:44px;
+font-size:42px;
 font-weight:700;
 
-padding:50px;
+padding:45px;
 
 border-radius:18px;
 border:none;
@@ -178,8 +166,8 @@ color:white;
 cursor:pointer;
 
 box-shadow:
-0 6px 0 rgba(0,0,0,0.4),
-0 8px 18px rgba(0,0,0,0.3);
+0 6px 0 rgba(0,0,0,0.5),
+0 10px 20px rgba(0,0,0,0.3);
 
 }
 
@@ -213,7 +201,7 @@ margin:30px auto;
 
 overflow:hidden;
 
-box-shadow:inset 0 3px 8px rgba(0,0,0,0.3);
+box-shadow:inset 0 4px 10px rgba(0,0,0,0.3);
 
 }
 
@@ -261,12 +249,6 @@ font-size:80px;
 
 }
 
-#rating{
-
-font-size:50px;
-
-}
-
 #nameInput{
 
 font-size:30px;
@@ -287,10 +269,10 @@ border:1px solid #ccc;
 
 position:fixed;
 
-width:10px;
-height:10px;
+width:12px;
+height:12px;
 
-top:-10px;
+top:-20px;
 
 animation:fall 3s linear forwards;
 
@@ -374,6 +356,10 @@ Nochmal spielen
 
 </div>
 
+<!-- AUDIO -->
+
+<audio id="nachtigall" src="nachtigall.mp3"></audio> <audio id="amsel" src="amsel.mp3"></audio> <audio id="rotkehlchen" src="rotkehlchen.mp3"></audio> <audio id="halsbandsittich" src="halsbandsittich.mp3"></audio> <audio id="kanadagans" src="kanadagans.mp3"></audio> <audio id="kohlmeise" src="kohlmeise.mp3"></audio> <audio id="ringeltaube" src="ringeltaube.mp3"></audio> <audio id="star" src="star.mp3"></audio> <audio id="stockente" src="stockente.mp3"></audio> <audio id="turmfalke" src="turmfalke.mp3"></audio>
+
 <script>
 
 function capitalize(text){
@@ -398,6 +384,7 @@ let currentBird="";
 let points=0;
 let rounds=0;
 let maxRounds=15;
+let scoreSaved=false;
 
 function startGame(selectedMode){
 
@@ -420,7 +407,6 @@ document.getElementById("startScreen").style.display="flex";
 function createBirdCards(){
 
 let container=document.getElementById("birdContainer");
-
 container.innerHTML="";
 
 birds.forEach(bird=>{
@@ -430,11 +416,8 @@ let name=capitalize(bird.name);
 if(mode==="expert"){
 
 let btn=document.createElement("button");
-
 btn.className="expertButton";
-
 btn.innerText=name;
-
 btn.onclick=()=>birdClicked(bird.name);
 
 container.appendChild(btn);
@@ -444,7 +427,6 @@ container.appendChild(btn);
 else{
 
 let card=document.createElement("div");
-
 card.className="card";
 
 card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+name+"</div>";
@@ -459,32 +441,48 @@ container.appendChild(card);
 
 }
 
+function stopAllSounds(){
+
+document.querySelectorAll("audio").forEach(a=>{
+a.pause();
+a.currentTime=0;
+});
+
+}
+
 function playRandomSound(){
+
+stopAllSounds();
 
 let randomIndex=Math.floor(Math.random()*birds.length);
 
 currentBird=birds[randomIndex].name;
 
+document.getElementById(currentBird).play();
+
 }
 
-function repeatSound(){}
+function repeatSound(){
+
+if(currentBird!=""){
+stopAllSounds();
+document.getElementById(currentBird).play();
+}
+
+}
 
 function birdClicked(bird){
+
+stopAllSounds();
 
 rounds++;
 
 if(bird===currentBird){
-
 points++;
-
 document.getElementById("info").innerHTML="✅ Richtig";
-
 }
-
 else{
-
 document.getElementById("info").innerHTML="❌ Falsch";
-
 }
 
 document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
@@ -492,10 +490,10 @@ document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
 document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
 
 if(rounds>=maxRounds){
-
 endGame();
-
 }
+
+currentBird="";
 
 }
 
@@ -508,6 +506,8 @@ document.getElementById("game").style.display="none";
 document.getElementById("endScreen").style.display="flex";
 
 document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
+
+displayHighscores();
 
 }
 
@@ -530,6 +530,50 @@ document.body.appendChild(conf);
 setTimeout(()=>conf.remove(),4000);
 
 }
+
+}
+
+function saveScore(){
+
+if(scoreSaved) return;
+
+let name=document.getElementById("nameInput").value.trim();
+
+if(!name) return;
+
+let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
+
+highscores.push({name:name,score:points});
+
+highscores.sort((a,b)=>b.score-a.score);
+
+highscores=highscores.slice(0,10);
+
+localStorage.setItem("birdHighscores",JSON.stringify(highscores));
+
+scoreSaved=true;
+
+document.getElementById("saveBtn").disabled=true;
+
+displayHighscores();
+
+}
+
+function displayHighscores(){
+
+let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
+
+let html="";
+
+highscores.forEach((h,i)=>{
+
+let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
+
+html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
+
+});
+
+document.getElementById("highscores").innerHTML=html;
 
 }
 
