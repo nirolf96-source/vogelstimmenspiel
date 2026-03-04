@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Vogelstimmen Quiz</title>
+<title>Vogelstimmen Trainer</title>
 
 <style>
 
@@ -15,15 +15,49 @@ margin:0;
 }
 
 h1{
-font-size:46px;
+font-size:48px;
 color:#2d6a4f;
-margin-top:20px;
+margin-top:30px;
+}
+
+/* STARTSCREEN */
+
+#startScreen{
+
+margin-top:80px;
+
+}
+
+.modeButton{
+
+font-size:30px;
+padding:25px 50px;
+margin:25px;
+
+border:none;
+border-radius:18px;
+
+background:#2d6a4f;
+color:white;
+
+cursor:pointer;
+
+}
+
+.modeButton:hover{
+background:#1b4332;
+}
+
+/* SPIEL */
+
+#game{
+display:none;
 }
 
 #points{
-font-size:28px;
+font-size:30px;
 font-weight:bold;
-margin:15px;
+margin:20px;
 }
 
 /* BUTTONS */
@@ -39,18 +73,15 @@ color:white;
 cursor:pointer;
 }
 
-button:hover{
-background:#1b4332;
-}
-
 /* GRID */
 
 .container{
 
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
 
-gap:30px;
+grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+
+gap:35px;
 
 width:95%;
 margin:auto;
@@ -63,8 +94,11 @@ margin-top:40px;
 .card{
 
 background:white;
-padding:15px;
-border-radius:20px;
+
+padding:20px;
+
+border-radius:25px;
+
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 
 cursor:pointer;
@@ -77,29 +111,39 @@ transition:0.3s;
 transform:scale(1.05);
 }
 
+/* WICHTIG: Bild vollständig anzeigen */
+
 .card img{
 
 width:100%;
-height:200px;
 
-object-fit:cover;
+height:auto;
+
+max-height:230px;
+
+object-fit:contain;
 
 border-radius:15px;
 
 }
 
 .name{
-font-size:20px;
+
+font-size:22px;
+
 font-weight:bold;
+
 margin-top:10px;
+
 }
 
-/* FORTSCHRITTSBALKEN */
+/* Fortschrittsbalken */
 
 .progressContainer{
 
-width:80%;
-height:45px;
+width:85%;
+
+height:50px;
 
 margin:30px auto;
 
@@ -114,24 +158,20 @@ overflow:hidden;
 .progressBar{
 
 height:100%;
+
 width:0%;
 
 background:#2d6a4f;
 
-transition:0.4s;
-
 }
 
+/* Info */
+
 #info{
-
-font-size:28px;
-
+font-size:32px;
 height:40px;
-
 margin-top:10px;
-
 font-weight:bold;
-
 }
 
 /* ENDSCREEN */
@@ -160,51 +200,32 @@ z-index:1000;
 }
 
 #finalScore{
-
-font-size:50px;
-
+font-size:56px;
 margin:20px;
-
 }
 
 #rating{
-
-font-size:42px;
-
+font-size:44px;
 margin-bottom:30px;
-
 }
 
 #nameInput{
-
 font-size:26px;
-
 padding:12px;
-
 border-radius:10px;
-
 border:1px solid #ccc;
-
 width:260px;
-
 }
 
 .highscore{
-
 font-size:28px;
-
 margin-top:30px;
-
 }
 
 .restartButton{
-
 font-size:28px;
-
 padding:20px 45px;
-
 margin-top:30px;
-
 }
 
 </style>
@@ -213,7 +234,25 @@ margin-top:30px;
 
 <body>
 
-<h1>Vogelstimmen Quiz 🐦</h1>
+<h1>🐦 Vogelstimmen Trainer</h1>
+
+<div id="startScreen">
+
+<button class="modeButton" onclick="startGame('learn')">
+📚 Lernen
+</button>
+
+<button class="modeButton" onclick="startGame('quiz')">
+🎯 Quiz
+</button>
+
+<button class="modeButton" onclick="startGame('expert')">
+🔥 Expertenmodus
+</button>
+
+</div>
+
+<div id="game">
 
 <div id="points">Punkte: 0 / 15</div>
 
@@ -226,6 +265,8 @@ margin-top:30px;
 <div id="info"></div>
 
 <div class="container" id="birdContainer"></div>
+
+</div>
 
 <div id="endScreen">
 
@@ -256,7 +297,6 @@ margin-top:30px;
 <script>
 
 let birds=[
-
 {name:"nachtigall",img:"nachtigall.jpg"},
 {name:"amsel",img:"amsel.jpg"},
 {name:"rotkehlchen",img:"rotkehlchen.jpg"},
@@ -267,26 +307,30 @@ let birds=[
 {name:"star",img:"star.jpg"},
 {name:"stockente",img:"stockente.jpg"},
 {name:"turmfalke",img:"turmfalke.jpg"}
-
 ];
 
+let mode="quiz";
 let currentBird="";
 let points=0;
 let rounds=0;
 let maxRounds=15;
 
+function startGame(selectedMode){
+
+mode=selectedMode;
+
+document.getElementById("startScreen").style.display="none";
+document.getElementById("game").style.display="block";
+
 createBirdCards();
-
-function shuffle(array){
-
-for(let i=array.length-1;i>0;i--){
-
-let j=Math.floor(Math.random()*(i+1));
-
-[array[i],array[j]]=[array[j],array[i]];
 
 }
 
+function shuffle(a){
+for(let i=a.length-1;i>0;i--){
+let j=Math.floor(Math.random()*(i+1));
+[a[i],a[j]]=[a[j],a[i]];
+}
 }
 
 function createBirdCards(){
@@ -300,12 +344,17 @@ shuffle(birds);
 birds.forEach(bird=>{
 
 let card=document.createElement("div");
-
 card.className="card";
 
-card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+bird.name+"</div>";
+let img=bird.img;
 
-card.onclick=()=>checkAnswer(bird.name);
+if(mode==="expert"){
+img="silhouette.png";
+}
+
+card.innerHTML="<img src='"+img+"'><div class='name'>"+bird.name+"</div>";
+
+card.onclick=()=>birdClicked(bird.name);
 
 container.appendChild(card);
 
@@ -314,15 +363,10 @@ container.appendChild(card);
 }
 
 function stopAllSounds(){
-
 document.querySelectorAll("audio").forEach(a=>{
-
 a.pause();
-
 a.currentTime=0;
-
 });
-
 }
 
 function playRandomSound(){
@@ -335,36 +379,29 @@ currentBird=birds[randomIndex].name;
 
 document.getElementById(currentBird).play();
 
-createBirdCards();
-
 }
 
 function repeatSound(){
 
 if(currentBird!=""){
-
 stopAllSounds();
-
 document.getElementById(currentBird).play();
-
 }
 
 }
 
-function updateProgress(){
+function birdClicked(bird){
 
-document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
+if(mode==="learn"){
 
-}
-
-function checkAnswer(bird){
-
-if(currentBird===""){
-
-document.getElementById("info").innerHTML="🔊 Erst Vogelruf starten!";
-
+document.getElementById(bird).play();
 return;
 
+}
+
+if(currentBird===""){
+document.getElementById("info").innerHTML="🔊 Erst Vogelruf starten!";
+return;
 }
 
 rounds++;
@@ -372,7 +409,6 @@ rounds++;
 if(bird===currentBird){
 
 points++;
-
 document.getElementById("info").innerHTML="✅ Richtig!";
 
 }else{
@@ -383,12 +419,10 @@ document.getElementById("info").innerHTML="❌ Falsch";
 
 document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
 
-updateProgress();
+document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
 
 if(rounds>=maxRounds){
-
 endGame();
-
 }
 
 currentBird="";
@@ -397,11 +431,7 @@ currentBird="";
 
 function endGame(){
 
-document.getElementById("birdContainer").style.display="none";
-
-document.querySelectorAll("button").forEach(b=>b.style.display="none");
-
-document.getElementById("info").style.display="none";
+document.getElementById("game").style.display="none";
 
 document.getElementById("endScreen").style.display="flex";
 
@@ -458,12 +488,6 @@ html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
 document.getElementById("highscores").innerHTML=html;
 
 }
-
-document.getElementById("nameInput").addEventListener("keypress",function(e){
-
-if(e.key==="Enter") saveScore();
-
-});
 
 </script>
 
