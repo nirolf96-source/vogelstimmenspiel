@@ -9,38 +9,52 @@
 
 body{
 font-family:"Segoe UI",Arial;
-text-align:center;
-background:linear-gradient(#dff6e0,#ffffff);
+background:linear-gradient(#e8f8e8,#ffffff);
 margin:0;
+text-align:center;
 }
 
+/* Titel */
+
 h1{
-font-size:48px;
+font-size:64px;
+margin-top:40px;
 color:#2d6a4f;
-margin-top:30px;
+letter-spacing:2px;
+text-shadow:2px 2px 6px rgba(0,0,0,0.2);
 }
 
 /* STARTSCREEN */
 
 #startScreen{
-
-margin-top:80px;
-
+height:70vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:30px;
 }
 
 .modeButton{
 
-font-size:30px;
-padding:25px 50px;
-margin:25px;
+width:70%;
+max-width:600px;
+
+font-size:36px;
+
+padding:40px;
 
 border:none;
-border-radius:18px;
+
+border-radius:25px;
 
 background:#2d6a4f;
+
 color:white;
 
 cursor:pointer;
+
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
 
 }
 
@@ -48,29 +62,12 @@ cursor:pointer;
 background:#1b4332;
 }
 
-/* SPIEL */
+/* Zurück Button */
 
-#game{
-display:none;
-}
-
-#points{
-font-size:30px;
-font-weight:bold;
-margin:20px;
-}
-
-/* BUTTONS */
-
-button{
-padding:22px 45px;
-font-size:26px;
-margin:15px;
-border:none;
-border-radius:15px;
-background:#2d6a4f;
-color:white;
-cursor:pointer;
+.backButton{
+margin-top:20px;
+font-size:24px;
+padding:15px 30px;
 }
 
 /* GRID */
@@ -79,17 +76,19 @@ cursor:pointer;
 
 display:grid;
 
-grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
 
-gap:35px;
+gap:30px;
 
 width:95%;
+
 margin:auto;
+
 margin-top:40px;
 
 }
 
-/* VOGELKARTEN */
+/* Karten */
 
 .card{
 
@@ -111,121 +110,83 @@ transition:0.3s;
 transform:scale(1.05);
 }
 
-/* WICHTIG: Bild vollständig anzeigen */
-
 .card img{
 
 width:100%;
 
-height:auto;
-
-max-height:230px;
+height:230px;
 
 object-fit:contain;
 
-border-radius:15px;
-
 }
 
+/* Namen */
+
 .name{
-
 font-size:22px;
-
 font-weight:bold;
-
 margin-top:10px;
+}
 
+/* Buttons */
+
+button{
+padding:18px 40px;
+font-size:24px;
+border:none;
+border-radius:15px;
+background:#2d6a4f;
+color:white;
+cursor:pointer;
+margin:10px;
 }
 
 /* Fortschrittsbalken */
 
 .progressContainer{
-
-width:85%;
-
-height:50px;
-
-margin:30px auto;
-
+width:80%;
+height:40px;
+margin:20px auto;
 background:#ddd;
-
-border-radius:25px;
-
+border-radius:20px;
 overflow:hidden;
-
 }
 
 .progressBar{
-
 height:100%;
-
 width:0%;
-
 background:#2d6a4f;
-
 }
 
 /* Info */
 
 #info{
-font-size:32px;
+font-size:28px;
 height:40px;
-margin-top:10px;
-font-weight:bold;
 }
 
-/* ENDSCREEN */
+/* Endscreen */
 
 #endScreen{
-
 display:none;
-
 position:fixed;
-
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
-background:linear-gradient(#dff6e0,#ffffff);
-
+background:linear-gradient(#e8f8e8,#ffffff);
 justify-content:center;
 align-items:center;
-
 flex-direction:column;
-
-z-index:1000;
-
 }
 
 #finalScore{
-font-size:56px;
-margin:20px;
+font-size:60px;
 }
 
 #rating{
-font-size:44px;
-margin-bottom:30px;
-}
-
-#nameInput{
-font-size:26px;
-padding:12px;
-border-radius:10px;
-border:1px solid #ccc;
-width:260px;
-}
-
-.highscore{
-font-size:28px;
-margin-top:30px;
-}
-
-.restartButton{
-font-size:28px;
-padding:20px 45px;
-margin-top:30px;
+font-size:42px;
+margin-top:20px;
 }
 
 </style>
@@ -252,7 +213,11 @@ margin-top:30px;
 
 </div>
 
-<div id="game">
+<div id="game" style="display:none;">
+
+<button class="backButton" onclick="goBack()">⬅ Zurück</button>
+
+<div id="quizElements">
 
 <div id="points">Punkte: 0 / 15</div>
 
@@ -260,9 +225,11 @@ margin-top:30px;
 <div class="progressBar" id="progressBar"></div>
 </div>
 
-<button onclick="playRandomSound()">🔊 Vogelruf abspielen</button> <button onclick="repeatSound()">🔁 Ton wiederholen</button>
+<button onclick="playRandomSound()">🔊 Vogelruf</button> <button onclick="repeatSound()">🔁 Wiederholen</button>
 
 <div id="info"></div>
+
+</div>
 
 <div class="container" id="birdContainer"></div>
 
@@ -270,23 +237,12 @@ margin-top:30px;
 
 <div id="endScreen">
 
-<h2>🎉 Spiel beendet! 🎉</h2>
+<h2>🎉 Spiel beendet</h2>
 
 <div id="finalScore"></div>
 <div id="rating"></div>
 
-<input id="nameInput" placeholder="Dein Name">
-
-<br>
-
-<button onclick="saveScore()">Score speichern</button>
-
-<div class="highscore">
-<h3>🏆 Klassen Highscore</h3>
-<div id="highscores"></div>
-</div>
-
-<button class="restartButton" onclick="location.reload()">Nochmal spielen</button>
+<button onclick="location.reload()">Nochmal spielen</button>
 
 </div>
 
@@ -322,15 +278,21 @@ mode=selectedMode;
 document.getElementById("startScreen").style.display="none";
 document.getElementById("game").style.display="block";
 
+if(mode==="learn"){
+document.getElementById("quizElements").style.display="none";
+}
+
 createBirdCards();
 
 }
 
-function shuffle(a){
-for(let i=a.length-1;i>0;i--){
-let j=Math.floor(Math.random()*(i+1));
-[a[i],a[j]]=[a[j],a[i]];
-}
+function goBack(){
+
+stopAllSounds();
+
+document.getElementById("game").style.display="none";
+document.getElementById("startScreen").style.display="flex";
+
 }
 
 function createBirdCards(){
@@ -339,11 +301,10 @@ let container=document.getElementById("birdContainer");
 
 container.innerHTML="";
 
-shuffle(birds);
-
 birds.forEach(bird=>{
 
 let card=document.createElement("div");
+
 card.className="card";
 
 let img=bird.img;
@@ -363,10 +324,12 @@ container.appendChild(card);
 }
 
 function stopAllSounds(){
+
 document.querySelectorAll("audio").forEach(a=>{
 a.pause();
 a.currentTime=0;
 });
+
 }
 
 function playRandomSound(){
@@ -392,11 +355,11 @@ document.getElementById(currentBird).play();
 
 function birdClicked(bird){
 
-if(mode==="learn"){
+stopAllSounds();
 
+if(mode==="learn"){
 document.getElementById(bird).play();
 return;
-
 }
 
 if(currentBird===""){
@@ -409,6 +372,7 @@ rounds++;
 if(bird===currentBird){
 
 points++;
+
 document.getElementById("info").innerHTML="✅ Richtig!";
 
 }else{
@@ -435,57 +399,17 @@ document.getElementById("game").style.display="none";
 
 document.getElementById("endScreen").style.display="flex";
 
-document.getElementById("finalScore").innerHTML="Deine Punkte: "+points+" / "+maxRounds;
+document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
 
 let rating="";
 
-if(points==15) rating="🏆 Vogelstimmen-Profi!";
-else if(points>=13) rating="🐦 Fast ein Profi!";
-else if(points>=10) rating="🌿 Gute Vogelkenntnisse!";
-else if(points>=7) rating="🌱 Auf gutem Weg!";
-else rating="🐣 Vogel-Einsteiger!";
+if(points==15) rating="🏆 Vogelstimmen-Profi";
+else if(points>=13) rating="🐦 Fast ein Profi";
+else if(points>=10) rating="🌿 Gute Kenntnisse";
+else if(points>=7) rating="🌱 Auf gutem Weg";
+else rating="🐣 Anfänger";
 
 document.getElementById("rating").innerHTML=rating;
-
-displayHighscores();
-
-}
-
-function saveScore(){
-
-let name=document.getElementById("nameInput").value.trim();
-
-if(!name) return;
-
-let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
-
-highscores.push({name:name,score:points});
-
-highscores.sort((a,b)=>b.score-a.score);
-
-highscores=highscores.slice(0,10);
-
-localStorage.setItem("birdHighscores",JSON.stringify(highscores));
-
-displayHighscores();
-
-}
-
-function displayHighscores(){
-
-let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
-
-let html="";
-
-highscores.forEach((h,i)=>{
-
-let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
-
-html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
-
-});
-
-document.getElementById("highscores").innerHTML=html;
 
 }
 
