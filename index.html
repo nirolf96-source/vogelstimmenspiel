@@ -7,26 +7,21 @@
 <style>
 
 body{
-margin:0;
 font-family:"Segoe UI",Arial;
-background:linear-gradient(to bottom,#dff6e0,#ffffff);
 text-align:center;
+background:linear-gradient(to bottom,#dff6e0,#ffffff);
+margin:0;
 }
 
 h1{
-margin-top:30px;
-font-size:40px;
+font-size:38px;
 color:#2d6a4f;
-}
-
-#level{
-font-size:22px;
-margin-top:10px;
+margin-top:20px;
 }
 
 #points{
 font-size:20px;
-margin-top:5px;
+margin:10px;
 }
 
 button{
@@ -35,28 +30,38 @@ font-size:16px;
 margin:10px;
 border:none;
 border-radius:10px;
-cursor:pointer;
 background:#2d6a4f;
 color:white;
+cursor:pointer;
 }
 
 button:hover{
 background:#1b4332;
 }
 
+/* GRID FÜR VÖGEL */
+
 .container{
-margin-top:20px;
+
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:20px;
+
+width:90%;
+margin:auto;
+margin-top:30px;
+
 }
 
 .card{
-display:inline-block;
+
 background:white;
 padding:15px;
-margin:15px;
 border-radius:20px;
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 cursor:pointer;
 transition:0.3s;
+
 }
 
 .card:hover{
@@ -64,42 +69,72 @@ transform:scale(1.05);
 }
 
 .card img{
-width:180px;
+
+width:100%;
+max-width:180px;
 border-radius:15px;
+
 }
 
 .name{
-margin-top:10px;
 font-weight:bold;
+margin-top:8px;
 }
 
-#info{
-font-size:22px;
-margin-top:15px;
-height:30px;
+/* TABLET */
+
+@media (max-width:1000px){
+
+.container{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+
+/* HANDY */
+
+@media (max-width:600px){
+
+.container{
+grid-template-columns:repeat(2,1fr);
+}
+
+.card img{
+max-width:160px;
+}
+
 }
 
 /* Fortschrittsbalken */
 
 .progressContainer{
+
 width:60%;
 margin:20px auto;
 background:#ddd;
 border-radius:20px;
 overflow:hidden;
+
 }
 
 .progressBar{
+
 height:20px;
 width:0%;
 background:#2d6a4f;
-transition:0.4s;
+
+}
+
+#info{
+font-size:22px;
+height:30px;
+margin-top:10px;
 }
 
 #endScreen{
 display:none;
-font-size:40px;
-margin-top:60px;
+font-size:30px;
+margin-top:40px;
 color:#1b5e20;
 }
 
@@ -110,8 +145,7 @@ color:#1b5e20;
 
 <h1>Vogelstimmen Quiz 🐦</h1>
 
-<div id="level">Level 1</div>
-<div id="points">Punkte: 0</div>
+<div id="points">Punkte: 0 / 15</div>
 
 <div class="progressContainer">
 <div class="progressBar" id="progressBar"></div>
@@ -125,13 +159,15 @@ color:#1b5e20;
 <div class="container" id="birdContainer"></div>
 
 <div id="endScreen">
-🎉 Du bist Vogelprofi! 🎉
-<br><br>
-Gesamtpunkte: <span id="finalPoints"></span>
+
+<h2>Spiel beendet</h2>
+
+<div id="finalScore"></div>
+<div id="rating"></div>
+
 </div>
 
-
-<!-- Audio Dateien -->
+<!-- AUDIO DATEIEN -->
 
 <audio id="nachtigall" src="nachtigall.mp3"></audio>
 <audio id="amsel" src="amsel.mp3"></audio>
@@ -147,6 +183,7 @@ Gesamtpunkte: <span id="finalPoints"></span>
 <script>
 
 let birds=[
+
 {name:"nachtigall",img:"nachtigall.jpg"},
 {name:"amsel",img:"amsel.jpg"},
 {name:"rotkehlchen",img:"rotkehlchen.jpg"},
@@ -157,27 +194,32 @@ let birds=[
 {name:"star",img:"star.jpg"},
 {name:"stockente",img:"stockente.jpg"},
 {name:"turmfalke",img:"turmfalke.jpg"}
+
 ];
 
 let currentBird="";
-let correctAnswers=0;
-let level=1;
 let points=0;
-
-let maxLevel=5;
+let rounds=0;
+let maxRounds=15;
 
 createBirdCards();
 
 function shuffle(array){
+
 for(let i=array.length-1;i>0;i--){
+
 let j=Math.floor(Math.random()*(i+1));
+
 [array[i],array[j]]=[array[j],array[i]];
+
 }
+
 }
 
 function createBirdCards(){
 
 let container=document.getElementById("birdContainer");
+
 container.innerHTML="";
 
 shuffle(birds);
@@ -185,13 +227,15 @@ shuffle(birds);
 birds.forEach(bird=>{
 
 let card=document.createElement("div");
+
 card.className="card";
 
-card.innerHTML=
-"<img src='"+bird.img+"'><div class='name'>"+bird.name+"</div>";
+card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+bird.name+"</div>";
 
 card.onclick=function(){
+
 checkAnswer(bird.name);
+
 };
 
 container.appendChild(card);
@@ -201,11 +245,17 @@ container.appendChild(card);
 }
 
 function stopAllSounds(){
+
 let sounds=document.querySelectorAll("audio");
+
 sounds.forEach(sound=>{
+
 sound.pause();
+
 sound.currentTime=0;
+
 });
+
 }
 
 function playRandomSound(){
@@ -213,6 +263,7 @@ function playRandomSound(){
 stopAllSounds();
 
 let randomIndex=Math.floor(Math.random()*birds.length);
+
 currentBird=birds[randomIndex].name;
 
 document.getElementById(currentBird).play();
@@ -224,15 +275,19 @@ createBirdCards();
 function repeatSound(){
 
 if(currentBird!=""){
+
 stopAllSounds();
+
 document.getElementById(currentBird).play();
+
 }
 
 }
 
 function updateProgress(){
 
-let percent=(correctAnswers/level)*100;
+let percent=(rounds/maxRounds)*100;
+
 document.getElementById("progressBar").style.width=percent+"%";
 
 }
@@ -240,48 +295,66 @@ document.getElementById("progressBar").style.width=percent+"%";
 function checkAnswer(bird){
 
 if(currentBird===""){
-document.getElementById("info").innerHTML="🔊 Erst Vogelruf abspielen!";
+
+document.getElementById("info").innerHTML="🔊 Erst Vogelruf starten!";
+
 return;
+
 }
+
+rounds++;
 
 if(bird===currentBird){
 
-correctAnswers++;
 points++;
 
 document.getElementById("info").innerHTML="✅ Richtig!";
-document.getElementById("points").innerHTML="Punkte: "+points;
-
-updateProgress();
 
 }else{
 
-document.getElementById("info").innerHTML="❌ Falsch! Versuche es nochmal.";
+document.getElementById("info").innerHTML="❌ Falsch";
 
 }
 
-if(correctAnswers>=level){
+document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
 
-level++;
-correctAnswers=0;
+updateProgress();
 
-document.getElementById("level").innerHTML="Level "+level;
+if(rounds>=maxRounds){
 
-document.getElementById("progressBar").style.width="0%";
+endGame();
 
-if(level>maxLevel){
+}
+
+currentBird="";
+
+}
+
+function endGame(){
 
 document.getElementById("birdContainer").style.display="none";
+
 document.querySelectorAll("button").forEach(b=>b.style.display="none");
-document.getElementById("level").style.display="none";
+
 document.getElementById("info").style.display="none";
 
 document.getElementById("endScreen").style.display="block";
-document.getElementById("finalPoints").innerHTML=points;
 
-}
+document.getElementById("finalScore").innerHTML="Deine Punkte: "+points+" / "+maxRounds;
 
-}
+let rating="";
+
+if(points==15) rating="🏆 Vogelstimmen-Profi";
+
+else if(points>=13) rating="🐦 Fast ein Profi";
+
+else if(points>=10) rating="🌿 Gute Vogelkenntnisse";
+
+else if(points>=7) rating="🌱 Auf gutem Weg";
+
+else rating="🐣 Vogel-Einsteiger";
+
+document.getElementById("rating").innerHTML=rating;
 
 }
 
