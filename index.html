@@ -13,26 +13,35 @@ background:linear-gradient(to bottom,#dff6e0,#ffffff);
 margin:0;
 }
 
+/* Titel */
+
 h1{
-font-size:38px;
+font-size:42px;
 color:#2d6a4f;
 margin-top:20px;
 }
 
+/* Punkte */
+
 #points{
-font-size:20px;
+font-size:26px;
 margin:10px;
+font-weight:bold;
 }
 
+/* GROSSE BUTTONS */
+
 button{
-padding:12px 20px;
-font-size:16px;
-margin:10px;
+
+padding:18px 35px;
+font-size:22px;
+margin:15px;
 border:none;
-border-radius:10px;
+border-radius:14px;
 background:#2d6a4f;
 color:white;
 cursor:pointer;
+
 }
 
 button:hover{
@@ -79,9 +88,10 @@ border-radius:15px;
 .name{
 font-weight:bold;
 margin-top:8px;
+font-size:18px;
 }
 
-/* TABLET */
+/* Tablet */
 
 @media (max-width:1000px){
 
@@ -91,7 +101,7 @@ grid-template-columns:repeat(3,1fr);
 
 }
 
-/* HANDY */
+/* Handy */
 
 @media (max-width:600px){
 
@@ -105,12 +115,13 @@ max-width:160px;
 
 }
 
-/* Fortschrittsbalken */
+/* GROßER FORTSCHRITTSBALKEN */
 
 .progressContainer{
 
-width:60%;
-margin:20px auto;
+width:70%;
+height:32px;
+margin:25px auto;
 background:#ddd;
 border-radius:20px;
 overflow:hidden;
@@ -119,23 +130,70 @@ overflow:hidden;
 
 .progressBar{
 
-height:20px;
+height:100%;
 width:0%;
 background:#2d6a4f;
+transition:0.4s;
 
 }
 
 #info{
-font-size:22px;
-height:30px;
+font-size:26px;
+height:40px;
 margin-top:10px;
+font-weight:bold;
 }
 
+/* VOLLBILD ENDERGEBNIS */
+
 #endScreen{
+
 display:none;
-font-size:30px;
-margin-top:40px;
-color:#1b5e20;
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:linear-gradient(#dff6e0,#ffffff);
+
+justify-content:center;
+align-items:center;
+
+flex-direction:column;
+
+z-index:1000;
+
+}
+
+#endScreen h2{
+
+font-size:60px;
+color:#2d6a4f;
+
+}
+
+#finalScore{
+
+font-size:48px;
+margin:20px;
+
+}
+
+#rating{
+
+font-size:42px;
+margin-top:10px;
+
+}
+
+.restartButton{
+
+font-size:26px;
+padding:20px 40px;
+
 }
 
 </style>
@@ -151,23 +209,28 @@ color:#1b5e20;
 <div class="progressBar" id="progressBar"></div>
 </div>
 
-<button onclick="playRandomSound()">Vogelruf abspielen</button>
-<button onclick="repeatSound()">Ton wiederholen</button>
+<button onclick="playRandomSound()">🔊 Vogelruf abspielen</button>
+<button onclick="repeatSound()">🔁 Ton wiederholen</button>
 
 <div id="info"></div>
 
 <div class="container" id="birdContainer"></div>
 
+<!-- ENDSCREEN -->
+
 <div id="endScreen">
 
-<h2>Spiel beendet</h2>
+<h2>🎉 Spiel beendet! 🎉</h2>
 
 <div id="finalScore"></div>
+
 <div id="rating"></div>
+
+<button class="restartButton" onclick="location.reload()">Nochmal spielen</button>
 
 </div>
 
-<!-- AUDIO DATEIEN -->
+<!-- AUDIO -->
 
 <audio id="nachtigall" src="nachtigall.mp3"></audio>
 <audio id="amsel" src="amsel.mp3"></audio>
@@ -249,11 +312,8 @@ function stopAllSounds(){
 let sounds=document.querySelectorAll("audio");
 
 sounds.forEach(sound=>{
-
 sound.pause();
-
 sound.currentTime=0;
-
 });
 
 }
@@ -338,23 +398,27 @@ document.querySelectorAll("button").forEach(b=>b.style.display="none");
 
 document.getElementById("info").style.display="none";
 
-document.getElementById("endScreen").style.display="block";
+document.getElementById("endScreen").style.display="flex";
 
 document.getElementById("finalScore").innerHTML="Deine Punkte: "+points+" / "+maxRounds;
 
 let rating="";
 
-if(points==15) rating="🏆 Vogelstimmen-Profi";
-
-else if(points>=13) rating="🐦 Fast ein Profi";
-
-else if(points>=10) rating="🌿 Gute Vogelkenntnisse";
-
-else if(points>=7) rating="🌱 Auf gutem Weg";
-
-else rating="🐣 Vogel-Einsteiger";
+if(points==15) rating="🏆 Vogelstimmen-Profi!";
+else if(points>=13) rating="🐦 Fast ein Profi!";
+else if(points>=10) rating="🌿 Gute Vogelkenntnisse!";
+else if(points>=7) rating="🌱 Auf gutem Weg!";
+else rating="🐣 Vogel-Einsteiger!";
 
 document.getElementById("rating").innerHTML=rating;
+
+/* Abschluss Vogelruf */
+
+let randomIndex=Math.floor(Math.random()*birds.length);
+
+let birdName=birds[randomIndex].name;
+
+document.getElementById(birdName).play();
 
 }
 
