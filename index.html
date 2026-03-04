@@ -13,15 +13,11 @@ background:linear-gradient(to bottom,#dff6e0,#ffffff);
 margin:0;
 }
 
-/* Titel */
-
 h1{
 font-size:42px;
 color:#2d6a4f;
 margin-top:20px;
 }
-
-/* Punkte */
 
 #points{
 font-size:26px;
@@ -29,10 +25,7 @@ margin:10px;
 font-weight:bold;
 }
 
-/* GROSSE BUTTONS */
-
 button{
-
 padding:18px 35px;
 font-size:22px;
 margin:15px;
@@ -41,36 +34,28 @@ border-radius:14px;
 background:#2d6a4f;
 color:white;
 cursor:pointer;
-
 }
 
 button:hover{
 background:#1b4332;
 }
 
-/* GRID FÜR VÖGEL */
-
 .container{
-
 display:grid;
 grid-template-columns:repeat(5,1fr);
 gap:20px;
-
 width:90%;
 margin:auto;
 margin-top:30px;
-
 }
 
 .card{
-
 background:white;
 padding:15px;
 border-radius:20px;
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 cursor:pointer;
 transition:0.3s;
-
 }
 
 .card:hover{
@@ -78,11 +63,9 @@ transform:scale(1.05);
 }
 
 .card img{
-
 width:100%;
 max-width:180px;
 border-radius:15px;
-
 }
 
 .name{
@@ -91,50 +74,29 @@ margin-top:8px;
 font-size:18px;
 }
 
-/* Tablet */
-
 @media (max-width:1000px){
-
-.container{
-grid-template-columns:repeat(3,1fr);
+.container{grid-template-columns:repeat(3,1fr);}
 }
-
-}
-
-/* Handy */
 
 @media (max-width:600px){
-
-.container{
-grid-template-columns:repeat(2,1fr);
+.container{grid-template-columns:repeat(2,1fr);}
+.card img{max-width:160px;}
 }
-
-.card img{
-max-width:160px;
-}
-
-}
-
-/* GROßER FORTSCHRITTSBALKEN */
 
 .progressContainer{
-
 width:70%;
 height:32px;
 margin:25px auto;
 background:#ddd;
 border-radius:20px;
 overflow:hidden;
-
 }
 
 .progressBar{
-
 height:100%;
 width:0%;
 background:#2d6a4f;
 transition:0.4s;
-
 }
 
 #info{
@@ -144,56 +106,57 @@ margin-top:10px;
 font-weight:bold;
 }
 
-/* VOLLBILD ENDERGEBNIS */
+/* ENDSCREEN */
 
 #endScreen{
-
 display:none;
 position:fixed;
-
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
 background:linear-gradient(#dff6e0,#ffffff);
-
 justify-content:center;
 align-items:center;
-
 flex-direction:column;
-
 z-index:1000;
-
+overflow:auto;
 }
 
 #endScreen h2{
-
 font-size:60px;
 color:#2d6a4f;
-
 }
 
 #finalScore{
-
 font-size:48px;
 margin:20px;
-
 }
 
 #rating{
+font-size:40px;
+margin-bottom:20px;
+}
 
-font-size:42px;
-margin-top:10px;
+/* Highscore */
 
+#nameInput{
+padding:12px;
+font-size:20px;
+margin:10px;
+border-radius:10px;
+border:1px solid #ccc;
+}
+
+.highscoreTable{
+margin-top:20px;
+font-size:22px;
 }
 
 .restartButton{
-
 font-size:26px;
 padding:20px 40px;
-
+margin-top:20px;
 }
 
 </style>
@@ -223,8 +186,18 @@ padding:20px 40px;
 <h2>🎉 Spiel beendet! 🎉</h2>
 
 <div id="finalScore"></div>
-
 <div id="rating"></div>
+
+<input id="nameInput" placeholder="Dein Name">
+
+<br>
+
+<button onclick="saveScore()">Score speichern</button>
+
+<div class="highscoreTable">
+<h3>🏆 Klassen-Highscore</h3>
+<div id="highscores"></div>
+</div>
 
 <button class="restartButton" onclick="location.reload()">Nochmal spielen</button>
 
@@ -246,7 +219,6 @@ padding:20px 40px;
 <script>
 
 let birds=[
-
 {name:"nachtigall",img:"nachtigall.jpg"},
 {name:"amsel",img:"amsel.jpg"},
 {name:"rotkehlchen",img:"rotkehlchen.jpg"},
@@ -257,7 +229,6 @@ let birds=[
 {name:"star",img:"star.jpg"},
 {name:"stockente",img:"stockente.jpg"},
 {name:"turmfalke",img:"turmfalke.jpg"}
-
 ];
 
 let currentBird="";
@@ -268,21 +239,15 @@ let maxRounds=15;
 createBirdCards();
 
 function shuffle(array){
-
 for(let i=array.length-1;i>0;i--){
-
 let j=Math.floor(Math.random()*(i+1));
-
 [array[i],array[j]]=[array[j],array[i]];
-
 }
-
 }
 
 function createBirdCards(){
 
 let container=document.getElementById("birdContainer");
-
 container.innerHTML="";
 
 shuffle(birds);
@@ -290,15 +255,12 @@ shuffle(birds);
 birds.forEach(bird=>{
 
 let card=document.createElement("div");
-
 card.className="card";
 
 card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+bird.name+"</div>";
 
 card.onclick=function(){
-
 checkAnswer(bird.name);
-
 };
 
 container.appendChild(card);
@@ -308,14 +270,11 @@ container.appendChild(card);
 }
 
 function stopAllSounds(){
-
 let sounds=document.querySelectorAll("audio");
-
 sounds.forEach(sound=>{
 sound.pause();
 sound.currentTime=0;
 });
-
 }
 
 function playRandomSound(){
@@ -323,7 +282,6 @@ function playRandomSound(){
 stopAllSounds();
 
 let randomIndex=Math.floor(Math.random()*birds.length);
-
 currentBird=birds[randomIndex].name;
 
 document.getElementById(currentBird).play();
@@ -333,21 +291,15 @@ createBirdCards();
 }
 
 function repeatSound(){
-
 if(currentBird!=""){
-
 stopAllSounds();
-
 document.getElementById(currentBird).play();
-
 }
-
 }
 
 function updateProgress(){
 
 let percent=(rounds/maxRounds)*100;
-
 document.getElementById("progressBar").style.width=percent+"%";
 
 }
@@ -355,25 +307,17 @@ document.getElementById("progressBar").style.width=percent+"%";
 function checkAnswer(bird){
 
 if(currentBird===""){
-
 document.getElementById("info").innerHTML="🔊 Erst Vogelruf starten!";
-
 return;
-
 }
 
 rounds++;
 
 if(bird===currentBird){
-
 points++;
-
 document.getElementById("info").innerHTML="✅ Richtig!";
-
 }else{
-
 document.getElementById("info").innerHTML="❌ Falsch";
-
 }
 
 document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
@@ -381,21 +325,16 @@ document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
 updateProgress();
 
 if(rounds>=maxRounds){
-
 endGame();
-
 }
 
 currentBird="";
-
 }
 
 function endGame(){
 
 document.getElementById("birdContainer").style.display="none";
-
 document.querySelectorAll("button").forEach(b=>b.style.display="none");
-
 document.getElementById("info").style.display="none";
 
 document.getElementById("endScreen").style.display="flex";
@@ -412,13 +351,52 @@ else rating="🐣 Vogel-Einsteiger!";
 
 document.getElementById("rating").innerHTML=rating;
 
-/* Abschluss Vogelruf */
-
 let randomIndex=Math.floor(Math.random()*birds.length);
+document.getElementById(birds[randomIndex].name).play();
 
-let birdName=birds[randomIndex].name;
+displayHighscores();
 
-document.getElementById(birdName).play();
+}
+
+function saveScore(){
+
+let name=document.getElementById("nameInput").value;
+
+if(name==="") return;
+
+let highscores=JSON.parse(localStorage.getItem("birdHighscores"))||[];
+
+highscores.push({name:name,score:points});
+
+highscores.sort((a,b)=>b.score-a.score);
+
+highscores=highscores.slice(0,10);
+
+localStorage.setItem("birdHighscores",JSON.stringify(highscores));
+
+displayHighscores();
+
+}
+
+function displayHighscores(){
+
+let highscores=JSON.parse(localStorage.getItem("birdHighscores"))||[];
+
+let html="";
+
+highscores.forEach((entry,index)=>{
+
+let medal="";
+
+if(index==0) medal="🥇";
+else if(index==1) medal="🥈";
+else if(index==2) medal="🥉";
+
+html+=medal+" "+entry.name+" — "+entry.score+" Punkte<br>";
+
+});
+
+document.getElementById("highscores").innerHTML=html;
 
 }
 
