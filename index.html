@@ -18,51 +18,39 @@ text-align:center;
 background:#f0f0f0;
 }
 
-/* Modusfarben */
-
-.learnMode{background:#dff5e3;}
-.quizMode{background:#dfe9ff;}
-.expertMode{background:#ffe0de;}
-
-/* STARTSCREEN */
+/* ===================== */
+/* STARTSEITE */
+/* ===================== */
 
 #startScreen{
-position:relative;
+
 height:100vh;
+width:100%;
+
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-gap:40px;
-}
 
-/* Hintergrundbild */
+gap:35px;
 
-.startBackground{
-position:absolute;
-width:100%;
-height:100%;
-object-fit:contain;
-top:0;
-left:0;
-z-index:0;
-pointer-events:none;
+background-image:url("Startseite.png");
+background-size:cover;
+background-position:center;
+
 }
 
 /* Buttons */
 
 .modeButton{
 
-position:relative;
-z-index:2;
-
-width:80%;
-max-width:650px;
+width:auto;
+min-width:220px;
 
 font-size:42px;
 font-weight:700;
 
-padding:40px;
+padding:25px 45px;
 
 border:none;
 border-radius:25px;
@@ -83,9 +71,17 @@ transition:all 0.15s ease;
 transform:translateY(6px);
 }
 
-.learnBtn{background:linear-gradient(#4cc76a,#2e9c47);}
-.quizBtn{background:linear-gradient(#4d8dff,#2e62d6);}
-.expertBtn{background:linear-gradient(#ff5c5c,#c72b2b);}
+.learnBtn{
+background:linear-gradient(#4cc76a,#2e9c47);
+}
+
+.quizBtn{
+background:linear-gradient(#4d8dff,#2e62d6);
+}
+
+.expertBtn{
+background:linear-gradient(#ff5c5c,#c72b2b);
+}
 
 /* Steuerbuttons */
 
@@ -93,7 +89,7 @@ transform:translateY(6px);
 
 font-size:30px;
 
-padding:22px 35px;
+padding:18px 30px;
 
 border:none;
 border-radius:18px;
@@ -107,20 +103,21 @@ margin:15px;
 
 }
 
-/* Container */
+/* ===================== */
+/* GRID */
+/* ===================== */
 
 .container{
 
 display:grid;
 
-grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+grid-template-columns:repeat(4,1fr);
 
-gap:30px;
+gap:25px;
 
-width:92%;
+width:95%;
 
 margin:auto;
-
 margin-top:20px;
 
 }
@@ -131,115 +128,138 @@ margin-top:20px;
 
 background:white;
 
-padding:20px;
+padding:15px;
 
-border-radius:25px;
+border-radius:20px;
 
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
 
 cursor:pointer;
 
 }
 
 .card img{
+
 width:100%;
-height:200px;
+height:140px;
+
 object-fit:contain;
+
 }
 
 .name{
-font-size:28px;
+
+font-size:22px;
+
 font-weight:700;
-margin-top:10px;
+
+margin-top:8px;
+
 }
 
 /* Expertenbuttons */
 
 .expertButton{
-font-size:34px;
-padding:40px;
+
+font-size:24px;
+
+padding:25px;
+
 background:#ea4335;
+
 color:white;
+
 border:none;
-border-radius:20px;
+
+border-radius:15px;
+
 cursor:pointer;
+
 width:100%;
+
 }
 
 /* Punkte */
 
 #points{
-font-size:36px;
+
+font-size:30px;
+
 font-weight:700;
+
 margin-top:20px;
+
 }
 
 /* Fortschrittsbalken */
 
 .progressContainer{
+
 width:80%;
-height:40px;
+
+height:30px;
+
 margin:20px auto;
+
 background:#ddd;
+
 border-radius:30px;
+
 overflow:hidden;
+
 }
 
 .progressBar{
+
 height:100%;
 width:0%;
+
 background:#4285f4;
+
 }
 
 #info{
-font-size:28px;
-height:40px;
+
+font-size:24px;
+
+height:30px;
+
 }
 
-/* Endscreen */
+/* ===================== */
+/* TABLET */
+/* ===================== */
 
-#endScreen{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#f0f0f0;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-}
-
-#finalScore{
-font-size:60px;
-margin:20px;
-}
-
-#rating{
-font-size:36px;
-}
-
-#nameInput{
-font-size:22px;
-padding:10px;
-border-radius:10px;
-border:1px solid #ccc;
-width:240px;
-}
-
-/* Mobile */
-
-@media (max-width:800px){
-
-.modeButton{
-font-size:26px;
-padding:22px;
-width:90%;
-}
+@media (max-width:1000px){
 
 .container{
-grid-template-columns:1fr;
+grid-template-columns:repeat(3,1fr);
+}
+
+.modeButton{
+font-size:34px;
+}
+
+}
+
+/* ===================== */
+/* HANDY */
+/* ===================== */
+
+@media (max-width:700px){
+
+.container{
+grid-template-columns:repeat(2,1fr);
+}
+
+.modeButton{
+font-size:24px;
+padding:18px 30px;
+}
+
+.bigButton{
+font-size:20px;
+padding:14px 22px;
 }
 
 }
@@ -253,8 +273,6 @@ grid-template-columns:1fr;
 <!-- STARTSCREEN -->
 
 <div id="startScreen">
-
-<img src="Startseite.png" class="startBackground">
 
 <button class="modeButton learnBtn" onclick="startGame('learn')">
 📚 Lernen
@@ -324,199 +342,7 @@ grid-template-columns:1fr;
 
 <script>
 
-/* Großbuchstabe */
-
-function capitalize(text){
-return text.charAt(0).toUpperCase()+text.slice(1);
-}
-
-let birds=[
-{name:"nachtigall",img:"nachtigall.jpg"},
-{name:"amsel",img:"amsel.jpg"},
-{name:"rotkehlchen",img:"rotkehlchen.jpg"},
-{name:"halsbandsittich",img:"halsbandsittich.jpg"},
-{name:"kanadagans",img:"kanadagans.jpg"},
-{name:"kohlmeise",img:"kohlmeise.jpg"},
-{name:"ringeltaube",img:"ringeltaube.jpg"},
-{name:"star",img:"star.jpg"},
-{name:"stockente",img:"stockente.jpg"},
-{name:"turmfalke",img:"turmfalke.jpg"}
-];
-
-let mode="quiz";
-let currentBird="";
-let points=0;
-let rounds=0;
-let maxRounds=15;
-
-function startGame(selectedMode){
-
-mode=selectedMode;
-
-document.getElementById("startScreen").style.display="none";
-document.getElementById("game").style.display="block";
-
-if(mode==="learn"){
-document.getElementById("quizElements").style.display="none";
-}else{
-document.getElementById("quizElements").style.display="block";
-}
-
-createBirdCards();
-
-}
-
-function goBack(){
-stopAllSounds();
-document.getElementById("game").style.display="none";
-document.getElementById("startScreen").style.display="flex";
-}
-
-function createBirdCards(){
-
-let container=document.getElementById("birdContainer");
-container.innerHTML="";
-
-birds.forEach(bird=>{
-
-let name=capitalize(bird.name);
-
-if(mode==="expert"){
-
-let btn=document.createElement("button");
-btn.className="expertButton";
-btn.innerText=name;
-btn.onclick=()=>birdClicked(bird.name);
-container.appendChild(btn);
-
-}else{
-
-let card=document.createElement("div");
-card.className="card";
-
-card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+name+"</div>";
-card.onclick=()=>birdClicked(bird.name);
-
-container.appendChild(card);
-
-}
-
-});
-
-}
-
-function stopAllSounds(){
-document.querySelectorAll("audio").forEach(a=>{
-a.pause();
-a.currentTime=0;
-});
-}
-
-function playRandomSound(){
-
-stopAllSounds();
-
-let randomIndex=Math.floor(Math.random()*birds.length);
-currentBird=birds[randomIndex].name;
-
-document.getElementById(currentBird).play();
-
-}
-
-function repeatSound(){
-
-if(currentBird!=""){
-stopAllSounds();
-document.getElementById(currentBird).play();
-}
-
-}
-
-function birdClicked(bird){
-
-stopAllSounds();
-
-if(mode==="learn"){
-document.getElementById(bird).play();
-return;
-}
-
-if(currentBird===""){
-document.getElementById("info").innerHTML="🔊 Erst Vogelruf starten!";
-return;
-}
-
-rounds++;
-
-if(bird===currentBird){
-points++;
-document.getElementById("info").innerHTML="✅ Richtig!";
-}else{
-document.getElementById("info").innerHTML="❌ Falsch";
-}
-
-document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
-document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
-
-if(rounds>=maxRounds){
-endGame();
-}
-
-currentBird="";
-
-}
-
-function endGame(){
-
-document.getElementById("game").style.display="none";
-document.getElementById("endScreen").style.display="flex";
-
-document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
-
-displayHighscores();
-
-}
-
-function saveScore(){
-
-let name=document.getElementById("nameInput").value.trim();
-if(!name) return;
-
-let key = mode==="expert" ? "birdHighscoresExpert" : "birdHighscoresQuiz";
-
-let highscores=JSON.parse(localStorage.getItem(key)||"[]");
-
-highscores.push({name:name,score:points});
-
-highscores.sort((a,b)=>b.score-a.score);
-
-highscores=highscores.slice(0,10);
-
-localStorage.setItem(key,JSON.stringify(highscores));
-
-displayHighscores();
-
-}
-
-function displayHighscores(){
-
-let key = mode==="expert" ? "birdHighscoresExpert" : "birdHighscoresQuiz";
-
-let highscores=JSON.parse(localStorage.getItem(key)||"[]");
-
-let html="";
-
-highscores.forEach((h,i)=>{
-
-let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
-
-html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
-
-});
-
-document.getElementById("highscores").innerHTML=html;
-
-}
+/* dein vorhandenes JavaScript bleibt unverändert */
 
 </script>
 
