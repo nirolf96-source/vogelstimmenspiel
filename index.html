@@ -16,8 +16,6 @@ text-align:center;
 background:#f0f0f0;
 }
 
-/* STARTSEITE */
-
 #startScreen{
 height:100vh;
 display:flex;
@@ -31,8 +29,6 @@ background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
 }
-
-/* Start Buttons */
 
 .startButton{
 font-size:55px;
@@ -55,14 +51,10 @@ box-shadow:0 3px 0 rgba(0,0,0,0.5);
 .quizBtn{background:#3498db;}
 .expertBtn{background:#e74c3c;}
 
-/* GAME */
-
 #game{
 display:none;
 padding-top:20px;
 }
-
-/* Steuerbuttons */
 
 .bigButton{
 font-size:34px;
@@ -77,8 +69,6 @@ box-shadow:0 8px 0 rgba(0,0,0,0.5),0 12px 22px rgba(0,0,0,0.3);
 margin:15px;
 }
 
-/* GRID */
-
 .container{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -87,8 +77,6 @@ width:92%;
 margin:auto;
 margin-top:30px;
 }
-
-/* Karten */
 
 .card{
 background:white;
@@ -112,8 +100,6 @@ margin-top:10px;
 word-wrap:break-word;
 }
 
-/* Expertenbuttons */
-
 .expertButton{
 font-size:32px;
 font-weight:700;
@@ -127,8 +113,6 @@ box-shadow:0 8px 0 rgba(0,0,0,0.5),0 12px 22px rgba(0,0,0,0.3);
 white-space:normal;
 }
 
-/* Feedbackfarben */
-
 .correct{
 background:#2ecc71 !important;
 color:white;
@@ -139,15 +123,11 @@ background:#e74c3c !important;
 color:white;
 }
 
-/* Punkte */
-
 #points{
 font-size:60px;
 font-weight:700;
 margin-top:10px;
 }
-
-/* Fortschrittsbalken */
 
 .progressContainer{
 width:90%;
@@ -165,14 +145,10 @@ width:0%;
 background:linear-gradient(90deg,#00c6ff,#0072ff);
 }
 
-/* Info */
-
 #info{
 font-size:32px;
 height:50px;
 }
-
-/* ENDSCREEN */
 
 #endScreen{
 display:none;
@@ -282,11 +258,25 @@ margin:20px;
 
 </div>
 
-<!-- AUDIO -->
-
 <audio id="nachtigall" src="nachtigall.mp3"></audio> <audio id="amsel" src="amsel.mp3"></audio> <audio id="rotkehlchen" src="rotkehlchen.mp3"></audio> <audio id="halsbandsittich" src="halsbandsittich.mp3"></audio> <audio id="kanadagans" src="kanadagans.mp3"></audio> <audio id="kohlmeise" src="kohlmeise.mp3"></audio> <audio id="ringeltaube" src="ringeltaube.mp3"></audio> <audio id="star" src="star.mp3"></audio> <audio id="stockente" src="stockente.mp3"></audio> <audio id="turmfalke" src="turmfalke.mp3"></audio>
 
 <script>
+
+/* VERSIONSSYSTEM */
+
+let gameVersion = "v2";
+
+let savedVersion = localStorage.getItem("birdGameVersion");
+
+if(savedVersion !== gameVersion){
+
+localStorage.removeItem("birdHighscores");
+
+localStorage.setItem("birdGameVersion", gameVersion);
+
+}
+
+/* SPIELCODE */
 
 function capitalize(text){
 return text.charAt(0).toUpperCase()+text.slice(1);
@@ -351,6 +341,7 @@ if(mode==="expert"){
 let btn=document.createElement("button");
 btn.className="expertButton";
 btn.innerText=name;
+
 btn.onclick=(e)=>birdClicked(bird,e.target);
 
 container.appendChild(btn);
