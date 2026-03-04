@@ -18,45 +18,37 @@ text-align:center;
 background:#f0f0f0;
 }
 
-/* ===================== */
 /* STARTSEITE */
-/* ===================== */
 
 #startScreen{
-
 height:100vh;
-width:100%;
-
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-
-gap:35px;
+gap:30px;
 
 background-image:url("Startseite.png");
 background-size:cover;
 background-position:center;
-
 }
 
-/* Buttons */
+/* Startbuttons */
 
 .modeButton{
 
 width:auto;
 min-width:220px;
 
-font-size:42px;
+font-size:40px;
 font-weight:700;
 
-padding:25px 45px;
+padding:22px 45px;
 
 border:none;
 border-radius:25px;
 
 color:white;
-
 cursor:pointer;
 
 box-shadow:
@@ -71,52 +63,33 @@ transition:all 0.15s ease;
 transform:translateY(6px);
 }
 
-.learnBtn{
-background:linear-gradient(#4cc76a,#2e9c47);
-}
-
-.quizBtn{
-background:linear-gradient(#4d8dff,#2e62d6);
-}
-
-.expertBtn{
-background:linear-gradient(#ff5c5c,#c72b2b);
-}
+.learnBtn{background:linear-gradient(#4cc76a,#2e9c47);}
+.quizBtn{background:linear-gradient(#4d8dff,#2e62d6);}
+.expertBtn{background:linear-gradient(#ff5c5c,#c72b2b);}
 
 /* Steuerbuttons */
 
 .bigButton{
-
-font-size:30px;
-
-padding:18px 30px;
-
+font-size:26px;
+padding:16px 28px;
 border:none;
-border-radius:18px;
-
+border-radius:15px;
 background:#333;
 color:white;
-
 cursor:pointer;
-
-margin:15px;
-
+margin:10px;
 }
 
-/* ===================== */
 /* GRID */
-/* ===================== */
 
 .container{
 
 display:grid;
-
 grid-template-columns:repeat(4,1fr);
 
-gap:25px;
+gap:20px;
 
 width:95%;
-
 margin:auto;
 margin-top:20px;
 
@@ -127,108 +100,69 @@ margin-top:20px;
 .card{
 
 background:white;
-
 padding:15px;
-
 border-radius:20px;
-
 box-shadow:0 8px 20px rgba(0,0,0,0.2);
-
 cursor:pointer;
 
 }
 
 .card img{
-
 width:100%;
 height:140px;
-
 object-fit:contain;
-
 }
 
 .name{
-
-font-size:22px;
-
+font-size:20px;
 font-weight:700;
-
-margin-top:8px;
-
+margin-top:5px;
 }
 
 /* Expertenbuttons */
 
 .expertButton{
-
-font-size:24px;
-
-padding:25px;
-
+font-size:22px;
+padding:20px;
 background:#ea4335;
-
 color:white;
-
 border:none;
-
 border-radius:15px;
-
 cursor:pointer;
-
 width:100%;
-
 }
 
 /* Punkte */
 
 #points{
-
-font-size:30px;
-
+font-size:26px;
 font-weight:700;
-
-margin-top:20px;
-
+margin-top:10px;
 }
 
 /* Fortschrittsbalken */
 
 .progressContainer{
-
 width:80%;
-
-height:30px;
-
-margin:20px auto;
-
+height:25px;
+margin:15px auto;
 background:#ddd;
-
 border-radius:30px;
-
 overflow:hidden;
-
 }
 
 .progressBar{
-
 height:100%;
 width:0%;
-
 background:#4285f4;
-
 }
 
 #info{
-
-font-size:24px;
-
+font-size:22px;
 height:30px;
-
 }
 
-/* ===================== */
-/* TABLET */
-/* ===================== */
+/* Tablet */
 
 @media (max-width:1000px){
 
@@ -242,9 +176,7 @@ font-size:34px;
 
 }
 
-/* ===================== */
-/* HANDY */
-/* ===================== */
+/* Handy */
 
 @media (max-width:700px){
 
@@ -253,13 +185,13 @@ grid-template-columns:repeat(2,1fr);
 }
 
 .modeButton{
-font-size:24px;
+font-size:26px;
 padding:18px 30px;
 }
 
 .bigButton{
 font-size:20px;
-padding:14px 22px;
+padding:12px 20px;
 }
 
 }
@@ -270,21 +202,15 @@ padding:14px 22px;
 
 <body>
 
-<!-- STARTSCREEN -->
+<!-- STARTSEITE -->
 
 <div id="startScreen">
 
-<button class="modeButton learnBtn" onclick="startGame('learn')">
-📚 Lernen
-</button>
+<button class="modeButton learnBtn" onclick="startGame('learn')">📚 Lernen</button>
 
-<button class="modeButton quizBtn" onclick="startGame('quiz')">
-🎯 Quiz
-</button>
+<button class="modeButton quizBtn" onclick="startGame('quiz')">🎯 Quiz</button>
 
-<button class="modeButton expertBtn" onclick="startGame('expert')">
-🔥 Expertenmodus
-</button>
+<button class="modeButton expertBtn" onclick="startGame('expert')">🔥 Expertenmodus</button>
 
 </div>
 
@@ -314,12 +240,11 @@ padding:14px 22px;
 
 <!-- ENDSCREEN -->
 
-<div id="endScreen">
+<div id="endScreen" style="display:none;">
 
 <h2>🎉 Spiel beendet</h2>
 
 <div id="finalScore"></div>
-<div id="rating"></div>
 
 <input id="nameInput" placeholder="Dein Name">
 
@@ -342,7 +267,171 @@ padding:14px 22px;
 
 <script>
 
-/* dein vorhandenes JavaScript bleibt unverändert */
+function capitalize(text){
+return text.charAt(0).toUpperCase()+text.slice(1);
+}
+
+let birds=[
+{name:"nachtigall",img:"nachtigall.jpg"},
+{name:"amsel",img:"amsel.jpg"},
+{name:"rotkehlchen",img:"rotkehlchen.jpg"},
+{name:"halsbandsittich",img:"halsbandsittich.jpg"},
+{name:"kanadagans",img:"kanadagans.jpg"},
+{name:"kohlmeise",img:"kohlmeise.jpg"},
+{name:"ringeltaube",img:"ringeltaube.jpg"},
+{name:"star",img:"star.jpg"},
+{name:"stockente",img:"stockente.jpg"},
+{name:"turmfalke",img:"turmfalke.jpg"}
+];
+
+let mode="quiz";
+let currentBird="";
+let points=0;
+let rounds=0;
+let maxRounds=15;
+
+function startGame(selectedMode){
+
+mode=selectedMode;
+
+document.getElementById("startScreen").style.display="none";
+document.getElementById("game").style.display="block";
+
+if(mode==="learn"){
+document.getElementById("quizElements").style.display="none";
+}else{
+document.getElementById("quizElements").style.display="block";
+}
+
+createBirdCards();
+
+}
+
+function goBack(){
+stopAllSounds();
+document.getElementById("game").style.display="none";
+document.getElementById("startScreen").style.display="flex";
+}
+
+function createBirdCards(){
+
+let container=document.getElementById("birdContainer");
+container.innerHTML="";
+
+birds.forEach(bird=>{
+
+let name=capitalize(bird.name);
+
+if(mode==="expert"){
+
+let btn=document.createElement("button");
+btn.className="expertButton";
+btn.innerText=name;
+btn.onclick=()=>birdClicked(bird.name);
+container.appendChild(btn);
+
+}else{
+
+let card=document.createElement("div");
+card.className="card";
+
+card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+name+"</div>";
+card.onclick=()=>birdClicked(bird.name);
+
+container.appendChild(card);
+
+}
+
+});
+
+}
+
+function stopAllSounds(){
+document.querySelectorAll("audio").forEach(a=>{
+a.pause();
+a.currentTime=0;
+});
+}
+
+function playRandomSound(){
+
+stopAllSounds();
+
+let randomIndex=Math.floor(Math.random()*birds.length);
+currentBird=birds[randomIndex].name;
+
+document.getElementById(currentBird).play();
+
+}
+
+function repeatSound(){
+
+if(currentBird!=""){
+stopAllSounds();
+document.getElementById(currentBird).play();
+}
+
+}
+
+function birdClicked(bird){
+
+stopAllSounds();
+
+if(mode==="learn"){
+document.getElementById(bird).play();
+return;
+}
+
+if(currentBird===""){
+document.getElementById("info").innerHTML="🔊 Erst Vogelruf starten!";
+return;
+}
+
+rounds++;
+
+if(bird===currentBird){
+points++;
+document.getElementById("info").innerHTML="✅ Richtig!";
+}else{
+document.getElementById("info").innerHTML="❌ Falsch";
+}
+
+document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
+document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
+
+if(rounds>=maxRounds){
+endGame();
+}
+
+currentBird="";
+
+}
+
+function endGame(){
+
+document.getElementById("game").style.display="none";
+document.getElementById("endScreen").style.display="flex";
+
+document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
+
+}
+
+function saveScore(){
+
+let name=document.getElementById("nameInput").value.trim();
+if(!name) return;
+
+let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
+
+highscores.push({name:name,score:points});
+
+highscores.sort((a,b)=>b.score-a.score);
+
+highscores=highscores.slice(0,10);
+
+localStorage.setItem("birdHighscores",JSON.stringify(highscores));
+
+}
 
 </script>
 
