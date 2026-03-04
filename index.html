@@ -62,8 +62,6 @@ display:none;
 padding-top:20px;
 }
 
-/* große Steuerbuttons */
-
 .bigButton{
 font-size:36px;
 font-weight:700;
@@ -77,7 +75,7 @@ box-shadow:0 8px 0 rgba(0,0,0,0.5),0 12px 22px rgba(0,0,0,0.3);
 margin:20px;
 }
 
-/* GRID - immer 2 Spalten */
+/* GRID */
 
 .container{
 display:grid;
@@ -96,6 +94,7 @@ padding:20px;
 border-radius:20px;
 box-shadow:0 10px 25px rgba(0,0,0,0.25);
 cursor:pointer;
+transition:0.2s;
 }
 
 .card img{
@@ -124,6 +123,18 @@ color:white;
 cursor:pointer;
 box-shadow:0 8px 0 rgba(0,0,0,0.5),0 12px 22px rgba(0,0,0,0.3);
 white-space:normal;
+}
+
+/* Blinkfarben */
+
+.correct{
+background:#2ecc71 !important;
+color:white;
+}
+
+.wrong{
+background:#e74c3c !important;
+color:white;
 }
 
 /* Punkte */
@@ -195,8 +206,6 @@ font-size:40px;
 margin-top:10px;
 }
 
-/* Highscore */
-
 .highscore{
 background:white;
 padding:40px;
@@ -241,9 +250,7 @@ margin:20px;
 <div class="progressBar" id="progressBar"></div>
 </div>
 
-<button class="bigButton" onclick="playRandomSound()">🔊 Vogelruf</button> <button class="bigButton" onclick="repeatSound()">🔁 Wiederholen</button>
-
-<div id="info"></div>
+<div id="info">🔊 Höre den Vogelruf</div>
 
 </div>
 
@@ -293,7 +300,6 @@ let points=0;
 let rounds=0;
 let maxRounds=15;
 let scoreSaved=false;
-let soundPlayed=false;
 
 let usedBirds=[];
 
@@ -312,6 +318,10 @@ document.getElementById("quizElements").style.display="block";
 
 createBirdCards();
 
+if(mode!=="learn"){
+nextRound();
+}
+
 }
 
 function goBack(){
@@ -322,6 +332,8 @@ document.getElementById("game").style.display="none";
 document.getElementById("startScreen").style.display="flex";
 
 }
+
+/* Karten erzeugen */
 
 function createBirdCards(){
 
@@ -337,7 +349,9 @@ if(mode==="expert"){
 let btn=document.createElement("button");
 btn.className="expertButton";
 btn.innerText=name;
-btn.onclick=()=>birdClicked(bird);
+
+btn.onclick=(e)=>birdClicked(bird,e.target);
+
 container.appendChild(btn);
 
 }else{
@@ -346,7 +360,8 @@ let card=document.createElement("div");
 card.className="card";
 
 card.innerHTML="<img src='"+bird+".jpg'><div class='name'>"+name+"</div>";
-card.onclick=()=>birdClicked(bird);
+
+card.onclick=(e)=>birdClicked(bird,card);
 
 container.appendChild(card);
 
@@ -356,6 +371,8 @@ container.appendChild(card);
 
 }
 
+/* Sound stoppen */
+
 function stopAllSounds(){
 document.querySelectorAll("audio").forEach(a=>{
 a.pause();
@@ -363,7 +380,9 @@ a.currentTime=0;
 });
 }
 
-function playRandomSound(){
+/* neue Runde */
+
+function nextRound(){
 
 stopAllSounds();
 
@@ -373,59 +392,61 @@ usedBirds=[];
 
 let available=birds.filter(b=>!usedBirds.includes(b));
 
-let random=available[Math.floor(Math.random()*available.length)];
+currentBird=available[Math.floor(Math.random()*available.length)];
 
-currentBird=random;
-usedBirds.push(random);
+usedBirds.push(currentBird);
 
-document.getElementById(random).play();
-
-soundPlayed=true;
-
-}
-
-function repeatSound(){
-
-if(currentBird!=""){
-stopAllSounds();
 document.getElementById(currentBird).play();
-}
 
 }
 
-function birdClicked(bird){
+/* Klick */
+
+function birdClicked(bird,element){
 
 if(mode==="learn"){
+
 stopAllSounds();
 document.getElementById(bird).play();
 return;
-}
 
-if(!soundPlayed){
-document.getElementById("info").innerHTML="🔊 Höre zuerst den Vogelruf!";
-return;
 }
 
 stopAllSounds();
 
-rounds++;
-
 if(bird===currentBird){
+
+element.classList.add("correct");
 points++;
+
 document.getElementById("info").innerHTML="✅ Richtig!";
+
 }else{
+
+element.classList.add("wrong");
+
 document.getElementById("info").innerHTML="❌ Falsch!";
+
 }
+
+rounds++;
 
 document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
 
 document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
 
-soundPlayed=false;
+setTimeout(()=>{
+
+element.classList.remove("correct");
+element.classList.remove("wrong");
 
 if(rounds>=maxRounds){
 endGame();
+}else{
+nextRound();
 }
+
+},900);
 
 }
 
