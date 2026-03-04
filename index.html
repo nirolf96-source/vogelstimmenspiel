@@ -8,31 +8,40 @@
 
 body{
 margin:0;
-font-family:"Segoe UI", Arial;
+font-family:"Segoe UI",Arial;
 background:linear-gradient(to bottom,#dff6e0,#ffffff);
 text-align:center;
 }
 
 h1{
-margin-top:40px;
+margin-top:30px;
 font-size:40px;
 color:#2d6a4f;
 }
 
 #level{
-font-size:24px;
+font-size:22px;
 margin-top:10px;
 }
 
+#points{
+font-size:20px;
+margin-top:5px;
+}
+
 button{
-padding:12px 25px;
-font-size:18px;
-margin:20px;
-cursor:pointer;
-border-radius:10px;
+padding:12px 20px;
+font-size:16px;
+margin:10px;
 border:none;
+border-radius:10px;
+cursor:pointer;
 background:#2d6a4f;
 color:white;
+}
+
+button:hover{
+background:#1b4332;
 }
 
 .container{
@@ -42,8 +51,8 @@ margin-top:20px;
 .card{
 display:inline-block;
 background:white;
-padding:20px;
-margin:20px;
+padding:15px;
+margin:15px;
 border-radius:20px;
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 cursor:pointer;
@@ -51,23 +60,40 @@ transition:0.3s;
 }
 
 .card:hover{
-transform:translateY(-10px);
+transform:scale(1.05);
 }
 
 .card img{
-width:200px;
+width:180px;
 border-radius:15px;
 }
 
 .name{
 margin-top:10px;
-font-size:18px;
 font-weight:bold;
 }
 
 #info{
 font-size:22px;
-margin-top:20px;
+margin-top:15px;
+height:30px;
+}
+
+/* Fortschrittsbalken */
+
+.progressContainer{
+width:60%;
+margin:20px auto;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+}
+
+.progressBar{
+height:20px;
+width:0%;
+background:#2d6a4f;
+transition:0.4s;
 }
 
 #endScreen{
@@ -78,7 +104,6 @@ color:#1b5e20;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -86,8 +111,14 @@ color:#1b5e20;
 <h1>Vogelstimmen Quiz 🐦</h1>
 
 <div id="level">Level 1</div>
+<div id="points">Punkte: 0</div>
+
+<div class="progressContainer">
+<div class="progressBar" id="progressBar"></div>
+</div>
 
 <button onclick="playRandomSound()">Vogelruf abspielen</button>
+<button onclick="repeatSound()">Ton wiederholen</button>
 
 <div id="info"></div>
 
@@ -95,7 +126,10 @@ color:#1b5e20;
 
 <div id="endScreen">
 🎉 Du bist Vogelprofi! 🎉
+<br><br>
+Gesamtpunkte: <span id="finalPoints"></span>
 </div>
+
 
 <!-- Audio Dateien -->
 
@@ -128,6 +162,8 @@ let birds=[
 let currentBird="";
 let correctAnswers=0;
 let level=1;
+let points=0;
+
 let maxLevel=5;
 
 createBirdCards();
@@ -185,16 +221,42 @@ createBirdCards();
 
 }
 
+function repeatSound(){
+
+if(currentBird!=""){
+stopAllSounds();
+document.getElementById(currentBird).play();
+}
+
+}
+
+function updateProgress(){
+
+let percent=(correctAnswers/level)*100;
+document.getElementById("progressBar").style.width=percent+"%";
+
+}
+
 function checkAnswer(bird){
+
+if(currentBird===""){
+document.getElementById("info").innerHTML="🔊 Erst Vogelruf abspielen!";
+return;
+}
 
 if(bird===currentBird){
 
 correctAnswers++;
+points++;
+
 document.getElementById("info").innerHTML="✅ Richtig!";
+document.getElementById("points").innerHTML="Punkte: "+points;
+
+updateProgress();
 
 }else{
 
-document.getElementById("info").innerHTML="❌ Falsch!";
+document.getElementById("info").innerHTML="❌ Falsch! Versuche es nochmal.";
 
 }
 
@@ -203,20 +265,21 @@ if(correctAnswers>=level){
 level++;
 correctAnswers=0;
 
+document.getElementById("level").innerHTML="Level "+level;
+
+document.getElementById("progressBar").style.width="0%";
+
 if(level>maxLevel){
 
 document.getElementById("birdContainer").style.display="none";
-document.querySelector("button").style.display="none";
-document.getElementById("info").style.display="none";
+document.querySelectorAll("button").forEach(b=>b.style.display="none");
 document.getElementById("level").style.display="none";
+document.getElementById("info").style.display="none";
 
 document.getElementById("endScreen").style.display="block";
-
-return;
+document.getElementById("finalPoints").innerHTML=points;
 
 }
-
-document.getElementById("level").innerHTML="Level "+level;
 
 }
 
