@@ -13,34 +13,22 @@ body{
 font-family:'Poppins',sans-serif;
 margin:0;
 text-align:center;
-transition:0.4s;
-
-/* Hintergrund mit Vögeln + Noten */
-
 background-color:#f0f0f0;
 background-image:url("https://www.transparenttextures.com/patterns/music.png");
+transition:0.4s;
 }
 
-/* Hintergrundfarben je Modus */
+/* Hintergrund je Modus */
 
-.learnMode{
-background-color:#dff5e3;
-}
-
-.quizMode{
-background-color:#dfe9ff;
-}
-
-.expertMode{
-background-color:#ffe0de;
-}
+.learnMode{background-color:#dff5e3;}
+.quizMode{background-color:#dfe9ff;}
+.expertMode{background-color:#ffe0de;}
 
 /* Überschrift */
 
 h1{
 font-size:90px;
 margin-top:40px;
-color:#222;
 font-weight:700;
 }
 
@@ -60,44 +48,41 @@ gap:60px;
 .modeButton{
 width:85%;
 max-width:800px;
-font-size:60px;
+font-size:70px;
 font-weight:700;
-padding:80px;
+padding:90px;
 border:none;
 border-radius:35px;
 color:white;
 cursor:pointer;
 box-shadow:0 15px 35px rgba(0,0,0,0.25);
-transition:0.2s;
-}
-
-.modeButton:hover{
-transform:scale(1.06);
 }
 
 .learnBtn{background:#34a853;}
 .quizBtn{background:#4285f4;}
 .expertBtn{background:#ea4335;}
 
-/* Zurück */
+/* große Steuerbuttons */
 
-.backButton{
-margin-top:20px;
-font-size:26px;
-padding:16px 36px;
-background:#444;
-color:white;
+.bigButton{
+font-family:'Poppins',sans-serif;
+font-weight:700;
+font-size:40px;
+padding:35px 60px;
 border:none;
-border-radius:12px;
+border-radius:20px;
+background:#333;
+color:white;
 cursor:pointer;
+margin:20px;
 }
 
 /* Container */
 
 .container{
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-gap:35px;
+grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+gap:40px;
 width:90%;
 margin:auto;
 margin-top:40px;
@@ -107,15 +92,10 @@ margin-top:40px;
 
 .card{
 background:white;
-padding:25px;
+padding:30px;
 border-radius:25px;
 box-shadow:0 10px 25px rgba(0,0,0,0.2);
 cursor:pointer;
-transition:0.2s;
-}
-
-.card:hover{
-transform:scale(1.05);
 }
 
 .card img{
@@ -125,46 +105,42 @@ object-fit:contain;
 }
 
 .name{
-font-size:30px;
-font-weight:600;
-margin-top:12px;
+font-size:34px;
+font-weight:700;
+margin-top:10px;
 }
 
 /* Expertenbuttons */
 
 .expertButton{
-font-size:48px;
-padding:70px;
+font-family:'Poppins',sans-serif;
+font-weight:700;
+font-size:52px;
+padding:80px;
 background:#ea4335;
 color:white;
 border:none;
 border-radius:25px;
 cursor:pointer;
 width:100%;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
-/* Standard Buttons */
+/* Punkte */
 
-button{
-padding:25px 50px;
-font-size:28px;
-border:none;
-border-radius:16px;
-background:#555;
-color:white;
-cursor:pointer;
-margin:10px;
+#points{
+font-size:50px;
+font-weight:700;
+margin-top:20px;
 }
 
 /* Fortschrittsbalken */
 
 .progressContainer{
-width:80%;
-height:40px;
+width:85%;
+height:55px;
 margin:25px auto;
 background:#ddd;
-border-radius:20px;
+border-radius:30px;
 overflow:hidden;
 }
 
@@ -177,8 +153,9 @@ background:#4285f4;
 /* Info */
 
 #info{
-font-size:32px;
-height:40px;
+font-size:36px;
+height:50px;
+margin-top:20px;
 }
 
 /* Endscreen */
@@ -197,25 +174,25 @@ flex-direction:column;
 }
 
 #finalScore{
-font-size:70px;
+font-size:80px;
 margin:20px;
 }
 
 #rating{
-font-size:46px;
+font-size:50px;
 margin-bottom:30px;
 }
 
 #nameInput{
-font-size:28px;
-padding:14px;
+font-size:30px;
+padding:15px;
 border-radius:10px;
 border:1px solid #ccc;
-width:280px;
+width:300px;
 }
 
 .highscore{
-font-size:28px;
+font-size:30px;
 margin-top:30px;
 }
 
@@ -245,7 +222,7 @@ margin-top:30px;
 
 <div id="game" style="display:none;">
 
-<button class="backButton" onclick="goBack()">⬅ Zurück</button>
+<button class="bigButton" onclick="goBack()">⬅ Zurück</button>
 
 <div id="quizElements">
 
@@ -255,7 +232,9 @@ margin-top:30px;
 <div class="progressBar" id="progressBar"></div>
 </div>
 
-<button onclick="playRandomSound()">🔊 Vogelruf</button> <button onclick="repeatSound()">🔁 Wiederholen</button>
+<button class="bigButton" onclick="playRandomSound()">🔊 Vogelruf</button>
+
+<button class="bigButton" onclick="repeatSound()">🔁 Wiederholen</button>
 
 <div id="info"></div>
 
@@ -276,14 +255,14 @@ margin-top:30px;
 
 <br>
 
-<button onclick="saveScore()">Score speichern</button>
+<button class="bigButton" onclick="saveScore()">Score speichern</button>
 
 <div class="highscore">
 <h3>🏆 Klassen Highscore</h3>
 <div id="highscores"></div>
 </div>
 
-<button onclick="location.reload()">Nochmal spielen</button>
+<button class="bigButton" onclick="location.reload()">Nochmal spielen</button>
 
 </div>
 
@@ -292,6 +271,12 @@ margin-top:30px;
 <audio id="nachtigall" src="nachtigall.mp3"></audio> <audio id="amsel" src="amsel.mp3"></audio> <audio id="rotkehlchen" src="rotkehlchen.mp3"></audio> <audio id="halsbandsittich" src="halsbandsittich.mp3"></audio> <audio id="kanadagans" src="kanadagans.mp3"></audio> <audio id="kohlmeise" src="kohlmeise.mp3"></audio> <audio id="ringeltaube" src="ringeltaube.mp3"></audio> <audio id="star" src="star.mp3"></audio> <audio id="stockente" src="stockente.mp3"></audio> <audio id="turmfalke" src="turmfalke.mp3"></audio>
 
 <script>
+
+/* Funktion für Großbuchstaben */
+
+function capitalize(text){
+return text.charAt(0).toUpperCase()+text.slice(1);
+}
 
 let birds=[
 {name:"nachtigall",img:"nachtigall.jpg"},
@@ -349,11 +334,13 @@ container.innerHTML="";
 
 birds.forEach(bird=>{
 
+let name=capitalize(bird.name);
+
 if(mode==="expert"){
 
 let btn=document.createElement("button");
 btn.className="expertButton";
-btn.innerText=bird.name;
+btn.innerText=name;
 btn.onclick=()=>birdClicked(bird.name);
 container.appendChild(btn);
 
@@ -362,7 +349,7 @@ container.appendChild(btn);
 let card=document.createElement("div");
 card.className="card";
 
-card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+bird.name+"</div>";
+card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+name+"</div>";
 card.onclick=()=>birdClicked(bird.name);
 
 container.appendChild(card);
