@@ -14,13 +14,10 @@ margin:0;
 text-align:center;
 }
 
-/* Titel */
-
 h1{
-font-size:64px;
-margin-top:40px;
+font-size:60px;
+margin-top:30px;
 color:#2d6a4f;
-letter-spacing:2px;
 text-shadow:2px 2px 6px rgba(0,0,0,0.2);
 }
 
@@ -39,30 +36,17 @@ gap:30px;
 
 width:70%;
 max-width:600px;
-
 font-size:36px;
-
 padding:40px;
-
 border:none;
-
 border-radius:25px;
-
 background:#2d6a4f;
-
 color:white;
-
 cursor:pointer;
 
-box-shadow:0 8px 20px rgba(0,0,0,0.2);
-
 }
 
-.modeButton:hover{
-background:#1b4332;
-}
-
-/* Zurück Button */
+/* ZURÜCK BUTTON */
 
 .backButton{
 margin-top:20px;
@@ -73,37 +57,23 @@ padding:15px 30px;
 /* GRID */
 
 .container{
-
 display:grid;
-
-grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-
-gap:30px;
-
+grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+gap:35px;
 width:95%;
-
 margin:auto;
-
 margin-top:40px;
-
 }
 
-/* Karten */
+/* KARTEN */
 
 .card{
-
 background:white;
-
 padding:20px;
-
 border-radius:25px;
-
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
-
 cursor:pointer;
-
 transition:0.3s;
-
 }
 
 .card:hover{
@@ -111,16 +81,10 @@ transform:scale(1.05);
 }
 
 .card img{
-
 width:100%;
-
 height:230px;
-
 object-fit:contain;
-
 }
-
-/* Namen */
 
 .name{
 font-size:22px;
@@ -128,7 +92,7 @@ font-weight:bold;
 margin-top:10px;
 }
 
-/* Buttons */
+/* BUTTONS */
 
 button{
 padding:18px 40px;
@@ -141,7 +105,7 @@ cursor:pointer;
 margin:10px;
 }
 
-/* Fortschrittsbalken */
+/* FORTSCHRITTSBALKEN */
 
 .progressContainer{
 width:80%;
@@ -158,14 +122,12 @@ width:0%;
 background:#2d6a4f;
 }
 
-/* Info */
-
 #info{
 font-size:28px;
 height:40px;
 }
 
-/* Endscreen */
+/* ENDSCREEN */
 
 #endScreen{
 display:none;
@@ -182,11 +144,25 @@ flex-direction:column;
 
 #finalScore{
 font-size:60px;
+margin:20px;
 }
 
 #rating{
-font-size:42px;
-margin-top:20px;
+font-size:44px;
+margin-bottom:30px;
+}
+
+#nameInput{
+font-size:26px;
+padding:12px;
+border-radius:10px;
+border:1px solid #ccc;
+width:260px;
+}
+
+.highscore{
+font-size:28px;
+margin-top:30px;
 }
 
 </style>
@@ -199,17 +175,7 @@ margin-top:20px;
 
 <div id="startScreen">
 
-<button class="modeButton" onclick="startGame('learn')">
-📚 Lernen
-</button>
-
-<button class="modeButton" onclick="startGame('quiz')">
-🎯 Quiz
-</button>
-
-<button class="modeButton" onclick="startGame('expert')">
-🔥 Expertenmodus
-</button>
+<button class="modeButton" onclick="startGame('learn')">📚 Lernen</button> <button class="modeButton" onclick="startGame('quiz')">🎯 Quiz</button> <button class="modeButton" onclick="startGame('expert')">🔥 Expertenmodus</button>
 
 </div>
 
@@ -241,6 +207,17 @@ margin-top:20px;
 
 <div id="finalScore"></div>
 <div id="rating"></div>
+
+<input id="nameInput" placeholder="Dein Name">
+
+<br>
+
+<button onclick="saveScore()">Score speichern</button>
+
+<div class="highscore">
+<h3>🏆 Klassen Highscore</h3>
+<div id="highscores"></div>
+</div>
 
 <button onclick="location.reload()">Nochmal spielen</button>
 
@@ -280,6 +257,8 @@ document.getElementById("game").style.display="block";
 
 if(mode==="learn"){
 document.getElementById("quizElements").style.display="none";
+}else{
+document.getElementById("quizElements").style.display="block";
 }
 
 createBirdCards();
@@ -298,13 +277,11 @@ document.getElementById("startScreen").style.display="flex";
 function createBirdCards(){
 
 let container=document.getElementById("birdContainer");
-
 container.innerHTML="";
 
 birds.forEach(bird=>{
 
 let card=document.createElement("div");
-
 card.className="card";
 
 let img=bird.img;
@@ -370,15 +347,10 @@ return;
 rounds++;
 
 if(bird===currentBird){
-
 points++;
-
 document.getElementById("info").innerHTML="✅ Richtig!";
-
 }else{
-
 document.getElementById("info").innerHTML="❌ Falsch";
-
 }
 
 document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
@@ -396,7 +368,6 @@ currentBird="";
 function endGame(){
 
 document.getElementById("game").style.display="none";
-
 document.getElementById("endScreen").style.display="flex";
 
 document.getElementById("finalScore").innerHTML="Punkte: "+points+" / "+maxRounds;
@@ -410,6 +381,45 @@ else if(points>=7) rating="🌱 Auf gutem Weg";
 else rating="🐣 Anfänger";
 
 document.getElementById("rating").innerHTML=rating;
+
+displayHighscores();
+
+}
+
+function saveScore(){
+
+let name=document.getElementById("nameInput").value.trim();
+if(!name) return;
+
+let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
+
+highscores.push({name:name,score:points});
+
+highscores.sort((a,b)=>b.score-a.score);
+
+highscores=highscores.slice(0,10);
+
+localStorage.setItem("birdHighscores",JSON.stringify(highscores));
+
+displayHighscores();
+
+}
+
+function displayHighscores(){
+
+let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
+
+let html="";
+
+highscores.forEach((h,i)=>{
+
+let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
+
+html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
+
+});
+
+document.getElementById("highscores").innerHTML=html;
 
 }
 
