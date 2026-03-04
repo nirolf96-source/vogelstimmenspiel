@@ -32,7 +32,7 @@ margin-top:40px;
 font-weight:700;
 }
 
-/* Startscreen */
+/* Startscreen mit Logo */
 
 #startScreen{
 height:70vh;
@@ -41,6 +41,11 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 gap:60px;
+
+background-image:url("fes.png");
+background-repeat:no-repeat;
+background-position:center;
+background-size:contain;
 }
 
 /* Startbuttons */
@@ -56,6 +61,7 @@ border-radius:35px;
 color:white;
 cursor:pointer;
 box-shadow:0 15px 35px rgba(0,0,0,0.25);
+opacity:0.95;
 }
 
 .learnBtn{background:#34a853;}
@@ -271,8 +277,6 @@ margin-top:30px;
 <audio id="nachtigall" src="nachtigall.mp3"></audio> <audio id="amsel" src="amsel.mp3"></audio> <audio id="rotkehlchen" src="rotkehlchen.mp3"></audio> <audio id="halsbandsittich" src="halsbandsittich.mp3"></audio> <audio id="kanadagans" src="kanadagans.mp3"></audio> <audio id="kohlmeise" src="kohlmeise.mp3"></audio> <audio id="ringeltaube" src="ringeltaube.mp3"></audio> <audio id="star" src="star.mp3"></audio> <audio id="stockente" src="stockente.mp3"></audio> <audio id="turmfalke" src="turmfalke.mp3"></audio>
 
 <script>
-
-/* Funktion für Großbuchstaben */
 
 function capitalize(text){
 return text.charAt(0).toUpperCase()+text.slice(1);
