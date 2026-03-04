@@ -82,14 +82,17 @@ font-weight:bold;
 margin-top:10px;
 }
 
+/* Expertenmodus Buttons */
+
 .expertButton{
-font-size:32px;
-padding:40px;
+font-size:34px;
+padding:35px;
 background:#2d6a4f;
 color:white;
 border:none;
 border-radius:20px;
 cursor:pointer;
+width:100%;
 }
 
 button{
@@ -217,6 +220,8 @@ margin-top:30px;
 
 </div>
 
+<!-- AUDIO -->
+
 <audio id="nachtigall" src="nachtigall.mp3"></audio> <audio id="amsel" src="amsel.mp3"></audio> <audio id="rotkehlchen" src="rotkehlchen.mp3"></audio> <audio id="halsbandsittich" src="halsbandsittich.mp3"></audio> <audio id="kanadagans" src="kanadagans.mp3"></audio> <audio id="kohlmeise" src="kohlmeise.mp3"></audio> <audio id="ringeltaube" src="ringeltaube.mp3"></audio> <audio id="star" src="star.mp3"></audio> <audio id="stockente" src="stockente.mp3"></audio> <audio id="turmfalke" src="turmfalke.mp3"></audio>
 
 <script>
@@ -258,9 +263,12 @@ createBirdCards();
 }
 
 function goBack(){
+
 stopAllSounds();
+
 document.getElementById("game").style.display="none";
 document.getElementById("startScreen").style.display="flex";
+
 }
 
 function createBirdCards(){
@@ -270,15 +278,21 @@ container.innerHTML="";
 
 birds.forEach(bird=>{
 
+// Expertenmodus → nur große Namensbuttons
 if(mode==="expert"){
 
 let btn=document.createElement("button");
 btn.className="expertButton";
-btn.innerHTML=bird.name;
+btn.innerText=bird.name;
+
 btn.onclick=()=>birdClicked(bird.name);
+
 container.appendChild(btn);
 
-}else{
+}
+
+// Quiz & Lernen → Karten mit Bildern
+else{
 
 let card=document.createElement("div");
 card.className="card";
@@ -296,24 +310,33 @@ container.appendChild(card);
 }
 
 function stopAllSounds(){
+
 document.querySelectorAll("audio").forEach(a=>{
 a.pause();
 a.currentTime=0;
 });
+
 }
 
 function playRandomSound(){
+
 stopAllSounds();
+
 let randomIndex=Math.floor(Math.random()*birds.length);
+
 currentBird=birds[randomIndex].name;
+
 document.getElementById(currentBird).play();
+
 }
 
 function repeatSound(){
+
 if(currentBird!=""){
 stopAllSounds();
 document.getElementById(currentBird).play();
 }
+
 }
 
 function birdClicked(bird){
@@ -340,6 +363,7 @@ document.getElementById("info").innerHTML="❌ Falsch";
 }
 
 document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
+
 document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
 
 if(rounds>=maxRounds){
@@ -401,6 +425,12 @@ html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
 document.getElementById("highscores").innerHTML=html;
 
 }
+
+document.getElementById("nameInput").addEventListener("keydown",function(e){
+if(e.key==="Enter"){
+saveScore();
+}
+});
 
 </script>
 
