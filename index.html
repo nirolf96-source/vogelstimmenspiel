@@ -96,11 +96,6 @@ margin:20px;
 
 }
 
-.bigButton:active{
-transform:translateY(5px);
-box-shadow:0 2px 0 rgba(0,0,0,0.5);
-}
-
 /* Karten */
 
 .container{
@@ -160,10 +155,6 @@ box-shadow:
 0 8px 0 rgba(0,0,0,0.5),
 0 12px 22px rgba(0,0,0,0.3);
 
-}
-
-.expertButton:active{
-transform:translateY(4px);
 }
 
 /* Punkte */
@@ -226,7 +217,9 @@ left:0;
 width:100%;
 height:100%;
 
-background:linear-gradient(#f5f5f5,#eaeaea);
+background-image:url("Startseite.png");
+background-size:cover;
+background-position:center;
 
 justify-content:center;
 align-items:center;
@@ -235,31 +228,48 @@ flex-direction:column;
 }
 
 #finalScore{
-font-size:100px;
+font-size:110px;
 font-weight:700;
-margin:20px;
+color:white;
+text-shadow:0 5px 20px rgba(0,0,0,0.7);
 }
 
 #motivation{
-font-size:45px;
-margin-bottom:30px;
-color:#444;
+font-size:50px;
+margin-bottom:40px;
+color:white;
+text-shadow:0 4px 15px rgba(0,0,0,0.7);
+}
+
+/* Highscore */
+
+.highscore{
+
+background:white;
+padding:40px;
+
+border-radius:20px;
+
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+
+font-size:40px;
+
+width:600px;
+max-width:90%;
+
 }
 
 #nameInput{
 
-font-size:32px;
+font-size:34px;
 padding:18px;
 width:320px;
 
 border-radius:12px;
 border:1px solid #ccc;
 
-}
+margin:20px;
 
-.highscore{
-font-size:32px;
-margin-top:30px;
 }
 
 </style>
@@ -316,14 +326,12 @@ Expertenmodus
 
 <input id="nameInput" placeholder="Dein Name">
 
-<br>
-
 <button id="saveBtn" class="bigButton" onclick="saveScore()">
 Score speichern
 </button>
 
 <div class="highscore">
-<h3>🏆 Klassen Highscore</h3>
+<h2>🏆 Klassen Highscore</h2>
 <div id="highscores"></div>
 </div>
 
@@ -344,16 +352,9 @@ return text.charAt(0).toUpperCase()+text.slice(1);
 }
 
 let birds=[
-{name:"nachtigall",img:"nachtigall.jpg"},
-{name:"amsel",img:"amsel.jpg"},
-{name:"rotkehlchen",img:"rotkehlchen.jpg"},
-{name:"halsbandsittich",img:"halsbandsittich.jpg"},
-{name:"kanadagans",img:"kanadagans.jpg"},
-{name:"kohlmeise",img:"kohlmeise.jpg"},
-{name:"ringeltaube",img:"ringeltaube.jpg"},
-{name:"star",img:"star.jpg"},
-{name:"stockente",img:"stockente.jpg"},
-{name:"turmfalke",img:"turmfalke.jpg"}
+"nachtigall","amsel","rotkehlchen","halsbandsittich",
+"kanadagans","kohlmeise","ringeltaube","star",
+"stockente","turmfalke"
 ];
 
 let mode="quiz";
@@ -364,12 +365,20 @@ let maxRounds=15;
 let scoreSaved=false;
 let soundPlayed=false;
 
+let usedBirds=[];
+
 function startGame(selectedMode){
 
 mode=selectedMode;
 
 document.getElementById("startScreen").style.display="none";
 document.getElementById("game").style.display="block";
+
+if(mode==="learn"){
+document.getElementById("quizElements").style.display="none";
+}else{
+document.getElementById("quizElements").style.display="block";
+}
 
 createBirdCards();
 
@@ -389,27 +398,26 @@ container.innerHTML="";
 
 birds.forEach(bird=>{
 
-let name=capitalize(bird.name);
+let name=capitalize(bird);
 
 if(mode==="expert"){
 
 let btn=document.createElement("button");
 btn.className="expertButton";
 btn.innerText=name;
-btn.onclick=()=>birdClicked(bird.name);
+
+btn.onclick=()=>birdClicked(bird);
 
 container.appendChild(btn);
 
-}
-
-else{
+}else{
 
 let card=document.createElement("div");
 card.className="card";
 
-card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+name+"</div>";
+card.innerHTML="<img src='"+bird+".jpg'><div class='name'>"+name+"</div>";
 
-card.onclick=()=>birdClicked(bird.name);
+card.onclick=()=>birdClicked(bird);
 
 container.appendChild(card);
 
@@ -432,11 +440,19 @@ function playRandomSound(){
 
 stopAllSounds();
 
-let randomIndex=Math.floor(Math.random()*birds.length);
+if(usedBirds.length>=8){
+usedBirds=[];
+}
 
-currentBird=birds[randomIndex].name;
+let available=birds.filter(b=>!usedBirds.includes(b));
 
-document.getElementById(currentBird).play();
+let random=available[Math.floor(Math.random()*available.length)];
+
+currentBird=random;
+
+usedBirds.push(random);
+
+document.getElementById(random).play();
 
 soundPlayed=true;
 
@@ -453,12 +469,18 @@ document.getElementById(currentBird).play();
 
 function birdClicked(bird){
 
+if(mode==="learn"){
+
+stopAllSounds();
+document.getElementById(bird).play();
+return;
+
+}
+
 if(!soundPlayed){
 document.getElementById("info").innerHTML="🔊 Höre zuerst den Vogelruf!";
 return;
 }
-
-stopAllSounds();
 
 rounds++;
 
@@ -467,14 +489,13 @@ points++;
 document.getElementById("info").innerHTML="✅ Richtig!";
 }
 else{
-document.getElementById("info").innerHTML="❌ Falsch";
+document.getElementById("info").innerHTML="❌ Falsch!";
 }
 
 document.getElementById("points").innerHTML="Punkte: "+points+" / "+maxRounds;
 
 document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
 
-currentBird="";
 soundPlayed=false;
 
 if(rounds>=maxRounds){
@@ -486,18 +507,17 @@ endGame();
 function endGame(){
 
 document.getElementById("game").style.display="none";
-
 document.getElementById("endScreen").style.display="flex";
 
 document.getElementById("finalScore").innerHTML="🏆 "+points+" / "+maxRounds;
 
 let text="";
 
-if(points==15) text="Unglaublich! Du bist ein echter Vogelstimmen-Profi! 🐦";
-else if(points>=12) text="Stark! Du kennst dich richtig gut mit Vogelstimmen aus!";
-else if(points>=9) text="Sehr gut! Du bist auf einem tollen Weg!";
-else if(points>=6) text="Gut gemacht! Übung macht den Meister!";
-else text="Weiter üben – bald erkennst du alle Vogelstimmen!";
+if(points==15) text="Unglaublich! Du bist ein Vogelstimmen-Profi!";
+else if(points>=12) text="Stark! Du kennst viele Vogelstimmen!";
+else if(points>=9) text="Sehr gut! Weiter so!";
+else if(points>=6) text="Gut gemacht! Übung hilft!";
+else text="Weiter üben – bald erkennst du sie alle!";
 
 document.getElementById("motivation").innerHTML=text;
 
