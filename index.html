@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -9,28 +10,30 @@
 body{
 font-family:"Segoe UI",Arial;
 text-align:center;
-background:linear-gradient(to bottom,#dff6e0,#ffffff);
+background:linear-gradient(#dff6e0,#ffffff);
 margin:0;
 }
 
 h1{
-font-size:42px;
+font-size:46px;
 color:#2d6a4f;
 margin-top:20px;
 }
 
 #points{
-font-size:26px;
-margin:10px;
+font-size:28px;
 font-weight:bold;
+margin:15px;
 }
 
+/* BUTTONS */
+
 button{
-padding:18px 35px;
-font-size:22px;
+padding:22px 45px;
+font-size:26px;
 margin:15px;
 border:none;
-border-radius:14px;
+border-radius:15px;
 background:#2d6a4f;
 color:white;
 cursor:pointer;
@@ -45,14 +48,17 @@ background:#1b4332;
 .container{
 
 display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:25px;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
 
-width:90%;
+gap:30px;
+
+width:95%;
 margin:auto;
-margin-top:30px;
+margin-top:40px;
 
 }
+
+/* VOGELKARTEN */
 
 .card{
 
@@ -60,7 +66,9 @@ background:white;
 padding:15px;
 border-radius:20px;
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
+
 cursor:pointer;
+
 transition:0.3s;
 
 }
@@ -72,51 +80,33 @@ transform:scale(1.05);
 .card img{
 
 width:100%;
-max-width:220px;
+height:200px;
+
+object-fit:cover;
 
 border-radius:15px;
 
 }
 
 .name{
-font-weight:bold;
-margin-top:8px;
 font-size:20px;
+font-weight:bold;
+margin-top:10px;
 }
 
-/* Tablet */
-
-@media (max-width:1000px){
-
-.container{
-grid-template-columns:repeat(3,1fr);
-}
-
-}
-
-/* Handy */
-
-@media (max-width:600px){
-
-.container{
-grid-template-columns:repeat(2,1fr);
-}
-
-.card img{
-max-width:200px;
-}
-
-}
-
-/* Fortschrittsbalken */
+/* FORTSCHRITTSBALKEN */
 
 .progressContainer{
 
-width:70%;
-height:35px;
-margin:25px auto;
+width:80%;
+height:45px;
+
+margin:30px auto;
+
 background:#ddd;
-border-radius:20px;
+
+border-radius:25px;
+
 overflow:hidden;
 
 }
@@ -125,15 +115,23 @@ overflow:hidden;
 
 height:100%;
 width:0%;
+
 background:#2d6a4f;
+
+transition:0.4s;
 
 }
 
 #info{
-font-size:26px;
+
+font-size:28px;
+
 height:40px;
+
 margin-top:10px;
+
 font-weight:bold;
+
 }
 
 /* ENDSCREEN */
@@ -141,6 +139,7 @@ font-weight:bold;
 #endScreen{
 
 display:none;
+
 position:fixed;
 
 top:0;
@@ -158,57 +157,58 @@ flex-direction:column;
 
 z-index:1000;
 
-overflow:auto;
-
-}
-
-#endScreen h2{
-
-font-size:60px;
-color:#2d6a4f;
-
 }
 
 #finalScore{
 
-font-size:48px;
+font-size:50px;
+
 margin:20px;
 
 }
 
 #rating{
 
-font-size:40px;
-margin-bottom:20px;
+font-size:42px;
+
+margin-bottom:30px;
 
 }
 
 #nameInput{
 
-font-size:22px;
+font-size:26px;
+
 padding:12px;
+
 border-radius:10px;
+
 border:1px solid #ccc;
-width:250px;
+
+width:260px;
 
 }
 
 .highscore{
 
-font-size:26px;
-margin-top:20px;
+font-size:28px;
+
+margin-top:30px;
 
 }
 
 .restartButton{
 
-font-size:26px;
-padding:20px 40px;
+font-size:28px;
+
+padding:20px 45px;
+
 margin-top:30px;
 
 }
 
 </style>
+
 </head>
 
 <body>
@@ -221,14 +221,11 @@ margin-top:30px;
 <div class="progressBar" id="progressBar"></div>
 </div>
 
-<button onclick="playRandomSound()">🔊 Vogelruf abspielen</button>
-<button onclick="repeatSound()">🔁 Ton wiederholen</button>
+<button onclick="playRandomSound()">🔊 Vogelruf abspielen</button> <button onclick="repeatSound()">🔁 Ton wiederholen</button>
 
 <div id="info"></div>
 
 <div class="container" id="birdContainer"></div>
-
-<!-- ENDSCREEN -->
 
 <div id="endScreen">
 
@@ -244,7 +241,7 @@ margin-top:30px;
 <button onclick="saveScore()">Score speichern</button>
 
 <div class="highscore">
-<h3>🏆 Klassen-Highscore</h3>
+<h3>🏆 Klassen Highscore</h3>
 <div id="highscores"></div>
 </div>
 
@@ -254,20 +251,12 @@ margin-top:30px;
 
 <!-- AUDIO -->
 
-<audio id="nachtigall" src="nachtigall.mp3"></audio>
-<audio id="amsel" src="amsel.mp3"></audio>
-<audio id="rotkehlchen" src="rotkehlchen.mp3"></audio>
-<audio id="halsbandsittich" src="halsbandsittich.mp3"></audio>
-<audio id="kanadagans" src="kanadagans.mp3"></audio>
-<audio id="kohlmeise" src="kohlmeise.mp3"></audio>
-<audio id="ringeltaube" src="ringeltaube.mp3"></audio>
-<audio id="star" src="star.mp3"></audio>
-<audio id="stockente" src="stockente.mp3"></audio>
-<audio id="turmfalke" src="turmfalke.mp3"></audio>
+<audio id="nachtigall" src="nachtigall.mp3"></audio> <audio id="amsel" src="amsel.mp3"></audio> <audio id="rotkehlchen" src="rotkehlchen.mp3"></audio> <audio id="halsbandsittich" src="halsbandsittich.mp3"></audio> <audio id="kanadagans" src="kanadagans.mp3"></audio> <audio id="kohlmeise" src="kohlmeise.mp3"></audio> <audio id="ringeltaube" src="ringeltaube.mp3"></audio> <audio id="star" src="star.mp3"></audio> <audio id="stockente" src="stockente.mp3"></audio> <audio id="turmfalke" src="turmfalke.mp3"></audio>
 
 <script>
 
 let birds=[
+
 {name:"nachtigall",img:"nachtigall.jpg"},
 {name:"amsel",img:"amsel.jpg"},
 {name:"rotkehlchen",img:"rotkehlchen.jpg"},
@@ -278,6 +267,7 @@ let birds=[
 {name:"star",img:"star.jpg"},
 {name:"stockente",img:"stockente.jpg"},
 {name:"turmfalke",img:"turmfalke.jpg"}
+
 ];
 
 let currentBird="";
@@ -315,11 +305,7 @@ card.className="card";
 
 card.innerHTML="<img src='"+bird.img+"'><div class='name'>"+bird.name+"</div>";
 
-card.onclick=function(){
-
-checkAnswer(bird.name);
-
-};
+card.onclick=()=>checkAnswer(bird.name);
 
 container.appendChild(card);
 
@@ -329,12 +315,11 @@ container.appendChild(card);
 
 function stopAllSounds(){
 
-let sounds=document.querySelectorAll("audio");
+document.querySelectorAll("audio").forEach(a=>{
 
-sounds.forEach(sound=>{
+a.pause();
 
-sound.pause();
-sound.currentTime=0;
+a.currentTime=0;
 
 });
 
@@ -368,9 +353,7 @@ document.getElementById(currentBird).play();
 
 function updateProgress(){
 
-let percent=(rounds/maxRounds)*100;
-
-document.getElementById("progressBar").style.width=percent+"%";
+document.getElementById("progressBar").style.width=(rounds/maxRounds*100)+"%";
 
 }
 
@@ -438,15 +421,13 @@ displayHighscores();
 
 }
 
-/* Highscore speichern */
-
 function saveScore(){
 
 let name=document.getElementById("nameInput").value.trim();
 
-if(name==="") return;
+if(!name) return;
 
-let highscores=JSON.parse(localStorage.getItem("birdHighscores")) || [];
+let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
 
 highscores.push({name:name,score:points});
 
@@ -458,31 +439,31 @@ localStorage.setItem("birdHighscores",JSON.stringify(highscores));
 
 displayHighscores();
 
-document.getElementById("nameInput").value="";
-
 }
 
 function displayHighscores(){
 
-let highscores=JSON.parse(localStorage.getItem("birdHighscores")) || [];
+let highscores=JSON.parse(localStorage.getItem("birdHighscores")||"[]");
 
 let html="";
 
-highscores.forEach((entry,index)=>{
+highscores.forEach((h,i)=>{
 
-let medal="";
+let medal=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
 
-if(index==0) medal="🥇";
-else if(index==1) medal="🥈";
-else if(index==2) medal="🥉";
-
-html+=medal+" "+entry.name+" — "+entry.score+" Punkte<br>";
+html+=medal+" "+h.name+" — "+h.score+" Punkte<br>";
 
 });
 
 document.getElementById("highscores").innerHTML=html;
 
 }
+
+document.getElementById("nameInput").addEventListener("keypress",function(e){
+
+if(e.key==="Enter") saveScore();
+
+});
 
 </script>
 
